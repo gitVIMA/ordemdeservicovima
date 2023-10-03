@@ -1,12 +1,24 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from 'react-router-dom';
 import Login from './Login';
+import Orders from './Orders';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Outlet />}>
+          <Route index element={<Login />} />
+          <Route path="/orders" element={<Orders />} />
+        </Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
 
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -12,7 +15,8 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Usuário autenticado:', user);
-        // Redirecionar ou fazer o que precisar aqui
+        // Redirecionar para a tela de ordens de serviço após a autenticação
+        navigate('/orders');
       })
       .catch((error) => {
         const errorCode = error.code;
