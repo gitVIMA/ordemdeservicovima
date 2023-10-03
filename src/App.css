@@ -1,0 +1,9 @@
+/* src/App.css */
+.app-header {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.app-logo {
+  max-width: 100%; /* A logo terá no máximo a largura do seu contêiner */
+}
