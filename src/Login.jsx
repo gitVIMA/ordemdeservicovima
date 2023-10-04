@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
-
+import { Container, Typography, TextField, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
+import logo from './assets/logo.png';  // Importe a sua logo aqui
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +17,6 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Usuário autenticado:', user);
-        // Redirecionar para a tela de ordens de serviço após a autenticação
         navigate('/orders');
       })
       .catch((error) => {
@@ -26,26 +27,46 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          required
-        /><br />
-        <button type="submit">Entrar</button>
-      </form>
-    </div>
+    <Container maxWidth="sm" sx={{ marginTop: '5rem' }}>
+      <Box
+        sx={{
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: '1rem',
+          p: 4,
+          textAlign: 'center',
+        }}
+      >
+        <img src={logo} alt="Logo VIMA" style={{ width: '400px', marginBottom: '1rem' }} />
+        <Typography variant="h4" gutterBottom>
+          
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="E-mail"
+            variant="outlined"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Senha"
+            variant="outlined"
+            fullWidth
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            margin="normal"
+            required
+          />
+          <Button variant="contained" type="submit" fullWidth sx={{ mt: 2 }}>
+            Entrar
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 
