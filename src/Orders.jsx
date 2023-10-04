@@ -8,40 +8,60 @@ const Orders = () => {
     { id: 3, description: 'Atualização de software', status: 'Em andamento' },
   ]);
 
+  // Estado para armazenar os dados do novo pedido
+  const [newOrderData, setNewOrderData] = useState({ description: '', status: '' });
+
   // Função para adicionar uma nova ordem
-  const addOrder = (newOrder) => {
+  const addOrder = () => {
+    const newOrder = {
+      id: orders.length + 1,
+      description: newOrderData.description,
+      status: newOrderData.status,
+    };
+
     setOrders([...orders, newOrder]);
-  };
-
-  // Função para editar uma ordem existente
-  const updateOrder = (id, updatedOrder) => {
-    setOrders(prevOrders => prevOrders.map(order => (order.id === id ? updatedOrder : order)));
-  };
-
-  // Função para remover uma ordem
-  const deleteOrder = (id) => {
-    setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
+    setNewOrderData({ description: '', status: '' }); // Limpa os campos do formulário após a submissão
   };
 
   return (
     <div className="container">
       <h1>Ordens de Serviço</h1>
 
+      {/* Formulário para abrir uma nova ordem */}
+      <form onSubmit={(e) => { e.preventDefault(); addOrder(); }}>
+        <div>
+          <label>
+            Descrição:
+            <input 
+              type="text" 
+              value={newOrderData.description} 
+              onChange={(e) => setNewOrderData({ ...newOrderData, description: e.target.value })} 
+              required 
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Status:
+            <input 
+              type="text" 
+              value={newOrderData.status} 
+              onChange={(e) => setNewOrderData({ ...newOrderData, status: e.target.value })} 
+              required 
+            />
+          </label>
+        </div>
+        <button type="submit">Abrir Ordem de Serviço</button>
+      </form>
+
       {/* Exibir a lista de ordens de serviço */}
       <ul>
         {orders.map(order => (
           <li key={order.id}>
             <strong>Descrição:</strong> {order.description} | <strong>Status:</strong> {order.status}
-            <button onClick={() => updateOrder(order.id, { ...order, status: 'Concluída' })}>Concluir</button>
-            <button onClick={() => deleteOrder(order.id)}>Excluir</button>
           </li>
         ))}
       </ul>
-
-      {/* Adicionar uma nova ordem */}
-      <button onClick={() => addOrder({ id: orders.length + 1, description: 'Nova Ordem', status: 'Pendente' })}>
-        Adicionar Nova Ordem
-      </button>
     </div>
   );
 };
