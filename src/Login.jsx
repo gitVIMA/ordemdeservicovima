@@ -4,7 +4,7 @@ import { auth } from './firebase';
 import { Container, Typography, TextField, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import logo from './assets/logo.png';  // Importe a sua logo aqui
+import logo from './assets/logo-vima.png';  // Importe a sua logo aqui
 
 const Login = () => {
   const [email, setEmail] = useState('');

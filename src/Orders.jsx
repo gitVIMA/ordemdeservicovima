@@ -63,10 +63,10 @@ const Orders = () => {
   const [newOrderData, setNewOrderData] = useState({ 
     cliente: '', 
     tecnico: '', 
-    tipoServico: 'Instalação', 
+    tipoServico: '', 
     numeroInstalacao: '', 
     endereco: '', 
-    status: 'Pendente' 
+    status: '' 
   });
   const [editingOrderId, setEditingOrderId] = useState(null);
 
@@ -210,18 +210,24 @@ const Orders = () => {
           '& .delete-button': {
             marginTop: '1rem',
           },
-        }}
+         }}
       >
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+          <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '120px' }} />
+          <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '85px' }} />
+        </div>
         <Typography variant="h4" gutterBottom>
-          O.S - VIMA Telecom / CEMIG (setor de medição)
+          Ordens de Serviço
         </Typography>
         {/* Formulário para abrir uma nova ordem */}
         <form onSubmit={(e) => { e.preventDefault(); editingOrderId ? saveEdit() : addOrder(); }} className="form-container">
-         <div>
+       <div>
   <TextField
     fullWidth
     variant="outlined"
     label="Cliente"
+    size="small"
+    sx={{ marginBottom: '0.5rem' }}
     value={newOrderData.cliente}
     onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
     required
@@ -232,13 +238,15 @@ const Orders = () => {
     fullWidth
     variant="outlined"
     label="Técnico"
+    size="small"
+    sx={{ marginBottom: '0.5rem' }}
     value={newOrderData.tecnico}
     onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
     required
   />
 </div>
 <div>
-  <FormControl fullWidth variant="outlined">
+  <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '0.5rem' }}>
     <InputLabel>Tipo de Serviço</InputLabel>
     <Select
       value={newOrderData.tipoServico}
@@ -256,6 +264,8 @@ const Orders = () => {
     fullWidth
     variant="outlined"
     label="Número de Instalação"
+    size="small"
+    sx={{ marginBottom: '0.5rem' }}
     value={newOrderData.numeroInstalacao}
     onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
     required
@@ -266,6 +276,8 @@ const Orders = () => {
     fullWidth
     variant="outlined"
     label="Endereço"
+    size="small"
+    sx={{ marginBottom: '0.5rem' }}
     value={newOrderData.endereco}
     onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
     required
