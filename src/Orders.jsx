@@ -10,18 +10,66 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Card,
+  CardContent,
+  CardActions,
 } from '@mui/material';
 import { db } from './firebase';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+
+const OrderCard = ({ order, handleStatusChange, handleDelete }) => {
+  return (
+    <Card variant="outlined" sx={{ marginBottom: '1rem' }}>
+      <CardContent>
+        <Typography variant="h6" component="div">
+          Cliente: {order.cliente}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Técnico: {order.tecnico}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Tipo de Serviço: {order.tipoServico}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Número de Instalação: {order.numeroInstalacao}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Endereço: {order.endereco}
+        </Typography>
+        <FormControl fullWidth>
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={order.status}
+            onChange={(e) => handleStatusChange(e, order.id)}
+          >
+            <MenuItem value="Pendente">Pendente</MenuItem>
+            <MenuItem value="Em andamento">Em andamento</MenuItem>
+            <MenuItem value="Concluída">Concluída</MenuItem>
+          </Select>
+        </FormControl>
+      </CardContent>
+      <CardActions>
+        <Button
+          size="small"
+          startIcon={<DeleteIcon />}
+          onClick={() => handleDelete(order.id)}
+        >
+          Excluir
+        </Button>
+      </CardActions>
+    </Card>
+  );
+};
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [newOrderData, setNewOrderData] = useState({ 
-    cliente: '', 
-    tecnico: '', 
-    numeroInstalacao: '', 
-    endereco: '', 
-    status: 'Pendente' 
+  const [newOrderData, setNewOrderData] = useState({
+    cliente: '',
+    tecnico: '',
+    tipoServico: 'Instalação',
+    numeroInstalacao: '',
+    endereco: '',
+    status: 'Pendente',
   });
 
   useEffect(() => {
@@ -39,6 +87,7 @@ const Orders = () => {
     const newOrder = {
       cliente: newOrderData.cliente,
       tecnico: newOrderData.tecnico,
+      tipoServico: newOrderData.tipoServico,
       numeroInstalacao: newOrderData.numeroInstalacao,
       endereco: newOrderData.endereco,
       status: newOrderData.status,
@@ -52,6 +101,7 @@ const Orders = () => {
       setNewOrderData({ 
         cliente: '', 
         tecnico: '', 
+        tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
         status: 'Pendente' 
@@ -73,6 +123,19 @@ const Orders = () => {
     }
   };
 
+  const handleStatusChange = async (e, id) => {
+    const updatedStatus = e.target.value;
+    try {
+      const ordersRef = doc(db, 'orders', id);
+      await updateDoc(ordersRef, { status: updatedStatus });
+
+      const updatedOrders = orders.map(ord => (ord.id === id ? { ...ord, status: updatedStatus } : ord));
+      setOrders(updatedOrders);
+    } catch (error) {
+      console.error('Error updating status: ', error);
+    }
+  };
+
   return (
     <Container maxWidth="sm" sx={{ marginTop: '5rem' }}>
       <Box
@@ -81,13 +144,37 @@ const Orders = () => {
           borderColor: 'divider',
           borderRadius: '1rem',
           p: 4,
+          '& .form-container': {
+            marginBottom: '1rem',
+          },
+          '& .form-container label': {
+            display: 'block',
+            marginBottom: '0.5rem',
+          },
+          '& .form-container .MuiTextField-root': {
+            marginBottom: '1rem',
+          },
+          '& .form-container .MuiButton-root': {
+            marginTop: '1rem',
+          },
+          '& .order-list': {
+            listStyleType: 'none',
+            padding: 0,
+            marginTop: '2rem',
+          },
+          '& .order-list li': {
+            marginBottom: '1rem',
+          },
+          '& .delete-button': {
+            marginTop: '1rem',
+          },
         }}
       >
         <Typography variant="h4" gutterBottom>
           O.S - VIMA Telecom / CEMIG (setor de medição)
         </Typography>
         {/* Formulário para abrir uma nova ordem */}
-        <form onSubmit={(e) => { e.preventDefault(); addOrder(); }}>
+        <form onSubmit={(e) => { e.preventDefault(); addOrder(); }} className="form-container">
           <div>
             <label>
               Cliente:
@@ -110,6 +197,22 @@ const Orders = () => {
                 onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
                 required
               />
+            </label>
+          </div>
+          <div>
+            <label>
+              Tipo de Serviço:
+              <FormControl fullWidth>
+                <InputLabel>Tipo de Serviço</InputLabel>
+                <Select
+                  value={newOrderData.tipoServico}
+                  onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
+                >
+                  <MenuItem value="Instalação">Instalação</MenuItem>
+                  <MenuItem value="Manutenção">Manutenção e reparo</MenuItem>
+                   <MenuItem value="Contato">Contato</MenuItem>
+                </Select>
+              </FormControl>
             </label>
           </div>
           <div>
@@ -149,43 +252,21 @@ const Orders = () => {
               </Select>
             </FormControl>
           </div>
-          <Button variant="contained" type="submit" fullWidth sx={{ mt: 2 }}>
+          <Button variant="contained" type="submit" fullWidth>
             Abrir Ordem de Serviço
           </Button>
         </form>
         {/* Exibir a lista de ordens de serviço */}
-        <ul>
-          {orders.map(order => (
-            <li key={order.id}>
-              <div>
-                <strong>Status:</strong>
-                <FormControl fullWidth>
-                  <InputLabel>Status</InputLabel>
-                  <Select
-                    value={order.status}
-                    onChange={(e) => {
-                      const updatedStatus = e.target.value;
-                      const updatedOrders = orders.map(ord => (ord.id === order.id ? { ...ord, status: updatedStatus } : ord));
-                      setOrders(updatedOrders);
-                    }}
-                  >
-                    <MenuItem value="Pendente">Pendente</MenuItem>
-                    <MenuItem value="Em andamento">Em andamento</MenuItem>
-                    <MenuItem value="Concluída">Concluída</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <strong>Cliente:</strong> {order.cliente} | <strong>Técnico:</strong> {order.tecnico} | <strong>Número de Instalação:</strong> {order.numeroInstalacao} | <strong>Endereço:</strong> {order.endereco}
-              <Button
-                variant="outlined"
-                onClick={() => deleteOrder(order.id)}
-                startIcon={<DeleteIcon />}
-              >
-                Excluir
-              </Button>
-            </li>
+        <div className="order-list">
+          {orders.map((order) => (
+            <OrderCard
+              key={order.id}
+              order={order}
+              handleStatusChange={handleStatusChange}
+              handleDelete={deleteOrder}
+            />
           ))}
-        </ul>
+        </div>
       </Box>
     </Container>
   );
