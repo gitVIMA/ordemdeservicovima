@@ -11,12 +11,12 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import { db } from './firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 const Orders = () => {
   // Estado para armazenar as ordens de serviço
-  const [orders, setOrders] = useState([
-    
-  ]);
+  const [orders, setOrders] = useState([]);
 
   // Estado para armazenar os dados do novo pedido
   const [newOrderData, setNewOrderData] = useState({ 
@@ -28,9 +28,8 @@ const Orders = () => {
   });
 
   // Função para adicionar uma nova ordem
-  const addOrder = () => {
+  const addOrder = async () => {
     const newOrder = {
-      id: orders.length + 1,
       cliente: newOrderData.cliente,
       tecnico: newOrderData.tecnico,
       numeroInstalacao: newOrderData.numeroInstalacao,
@@ -38,14 +37,21 @@ const Orders = () => {
       status: newOrderData.status,
     };
 
-    setOrders([...orders, newOrder]);
-    setNewOrderData({ 
-      cliente: '', 
-      tecnico: '', 
-      numeroInstalacao: '', 
-      endereco: '', 
-      status: 'Pendente' 
-    }); // Limpa os campos do formulário após a submissão
+    try {
+      const docRef = await addDoc(collection(db, 'orders'), newOrder);
+      console.log('Document written with ID: ', docRef.id);
+
+      setOrders([...orders, { id: docRef.id, ...newOrder }]);
+      setNewOrderData({ 
+        cliente: '', 
+        tecnico: '', 
+        numeroInstalacao: '', 
+        endereco: '', 
+        status: 'Pendente' 
+      });
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
   };
 
   // Função para remover uma ordem
@@ -71,44 +77,48 @@ const Orders = () => {
           <div>
             <label>
               Cliente:
-              <input 
-                type="text" 
-                value={newOrderData.cliente} 
-                onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })} 
-                required 
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={newOrderData.cliente}
+                onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
+                required
               />
             </label>
           </div>
           <div>
             <label>
               Técnico:
-              <input 
-                type="text" 
-                value={newOrderData.tecnico} 
-                onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })} 
-                required 
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={newOrderData.tecnico}
+                onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
+                required
               />
             </label>
           </div>
           <div>
             <label>
               Número de Instalação:
-              <input 
-                type="text" 
-                value={newOrderData.numeroInstalacao} 
-                onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })} 
-                required 
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={newOrderData.numeroInstalacao}
+                onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
+                required
               />
             </label>
           </div>
           <div>
             <label>
               Endereço:
-              <input 
-                type="text" 
-                value={newOrderData.endereco} 
-                onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })} 
-                required 
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={newOrderData.endereco}
+                onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
+                required
               />
             </label>
           </div>
