@@ -1,68 +1,140 @@
 import React, { useState } from 'react';
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 
 const Orders = () => {
-  // Estado para armazenar as ordens de serviço
   const [orders, setOrders] = useState([
-    { id: 1, description: 'Instalação de rede Wi-Fi', status: 'Pendente' },
-    { id: 2, description: 'Manutenção do sistema de segurança', status: 'Concluída' },
-    { id: 3, description: 'Atualização de software', status: 'Em andamento' },
+    {
+      id: 1,
+      cliente: 'João Silva',
+      tecnico: 'Maria Oliveira',
+      numeroInstalacao: '12345',
+      endereco: 'Rua A, 123',
+      status: 'Pendente',
+    },
+    // ... Adicione mais ordens conforme necessário
   ]);
 
-  // Estado para armazenar os dados do novo pedido
-  const [newOrderData, setNewOrderData] = useState({ description: '', status: '' });
+  const [newOrderData, setNewOrderData] = useState({
+    cliente: '',
+    tecnico: '',
+    numeroInstalacao: '',
+    endereco: '',
+    status: 'Pendente',
+  });
 
-  // Função para adicionar uma nova ordem
   const addOrder = () => {
     const newOrder = {
       id: orders.length + 1,
-      description: newOrderData.description,
+      cliente: newOrderData.cliente,
+      tecnico: newOrderData.tecnico,
+      numeroInstalacao: newOrderData.numeroInstalacao,
+      endereco: newOrderData.endereco,
       status: newOrderData.status,
     };
 
     setOrders([...orders, newOrder]);
-    setNewOrderData({ description: '', status: '' }); // Limpa os campos do formulário após a submissão
+    setNewOrderData({
+      cliente: '',
+      tecnico: '',
+      numeroInstalacao: '',
+      endereco: '',
+      status: 'Pendente',
+    });
+  };
+
+  const deleteOrder = (id) => {
+    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
   };
 
   return (
-    <div className="container">
-      <h1>Ordens de Serviço</h1>
-
-      {/* Formulário para abrir uma nova ordem */}
-      <form onSubmit={(e) => { e.preventDefault(); addOrder(); }}>
-        <div>
-          <label>
-            Descrição:
-            <input 
-              type="text" 
-              value={newOrderData.description} 
-              onChange={(e) => setNewOrderData({ ...newOrderData, description: e.target.value })} 
-              required 
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Status:
-            <input 
-              type="text" 
-              value={newOrderData.status} 
-              onChange={(e) => setNewOrderData({ ...newOrderData, status: e.target.value })} 
-              required 
-            />
-          </label>
-        </div>
-        <button type="submit">Abrir Ordem de Serviço</button>
-      </form>
-
-      {/* Exibir a lista de ordens de serviço */}
-      <ul>
-        {orders.map(order => (
-          <li key={order.id}>
-            <strong>Descrição:</strong> {order.description} | <strong>Status:</strong> {order.status}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Container maxWidth="sm" sx={{ marginTop: '5rem' }}>
+      <Box
+        sx={{
+          border: 1,
+          borderColor: 'divider',
+          borderRadius: '1rem',
+          p: 4,
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Ordens de Serviço
+        </Typography>
+        <form onSubmit={(e) => { e.preventDefault(); addOrder(); }}>
+          <TextField
+            label="Cliente"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newOrderData.cliente}
+            onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
+            required
+          />
+          <TextField
+            label="Técnico"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newOrderData.tecnico}
+            onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
+            required
+          />
+          <TextField
+            label="Número de Instalação"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newOrderData.numeroInstalacao}
+            onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
+            required
+          />
+          <TextField
+            label="Endereço"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={newOrderData.endereco}
+            onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
+            required
+          />
+          <FormControl fullWidth variant="outlined" margin="normal">
+            <InputLabel>Status</InputLabel>
+            <Select
+              label="Status"
+              value={newOrderData.status}
+              onChange={(e) => setNewOrderData({ ...newOrderData, status: e.target.value })}
+            >
+              <MenuItem value="Pendente">Pendente</MenuItem>
+              <MenuItem value="Em andamento">Em andamento</MenuItem>
+              <MenuItem value="Concluída">Concluída</MenuItem>
+            </Select>
+          </FormControl>
+          <Button variant="contained" type="submit" fullWidth sx={{ mt: 2 }}>
+            Abrir Ordem de Serviço
+          </Button>
+        </form>
+        <ul>
+          {orders.map((order) => (
+            <li key={order.id}>
+              <strong>Cliente:</strong> {order.cliente} | <strong>Técnico:</strong> {order.tecnico} | <strong>Número de Instalação:</strong>{' '}
+              {order.numeroInstalacao} | <strong>Endereço:</strong> {order.endereco} | <strong>Status:</strong> {order.status}
+              <Button variant="outlined" onClick={() => deleteOrder(order.id)}>
+                Excluir
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </Box>
+    </Container>
   );
 };
 
