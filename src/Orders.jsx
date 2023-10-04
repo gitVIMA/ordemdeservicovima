@@ -22,21 +22,21 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem' }}>
       <CardContent>
-        <div>
-          <strong>Status:</strong>
-          <FormControl fullWidth>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={order.status}
-              onChange={(e) => handleStatusChange(order.id, e.target.value)}
-            >
-              <MenuItem value="Pendente">Pendente</MenuItem>
-              <MenuItem value="Em andamento">Em andamento</MenuItem>
-              <MenuItem value="Concluída">Concluída</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <strong>Cliente:</strong> {order.cliente} | <strong>Técnico:</strong> {order.tecnico} | <strong>Tipo de Serviço:</strong> {order.tipoServico} | <strong>Número de Instalação:</strong> {order.numeroInstalacao} | <strong>Endereço:</strong> {order.endereco}
+        <Typography variant="body2" color="text.secondary">
+          <strong>Cliente:</strong> {order.cliente}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Técnico:</strong> {order.tecnico}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Tipo de Serviço:</strong> {order.tipoServico}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Número de Instalação:</strong> {order.numeroInstalacao}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Endereço:</strong> {order.endereco}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button
@@ -245,14 +245,14 @@ const Orders = () => {
             <label>
               Tipo de Serviço:
               <FormControl fullWidth>
-                <InputLabel>Tipo de Serviço</InputLabel>
+                <InputLabel></InputLabel>
                 <Select
                   value={newOrderData.tipoServico}
                   onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
                 >
                   <MenuItem value="Instalação">Instalação</MenuItem>
-                  <MenuItem value="Manutenção">Manutenção e reparo</MenuItem>
-                  <MenuItem value="Contato">Contato ou mensagem</MenuItem>
+                  <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
+                  <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
                 </Select>
               </FormControl>
             </label>
