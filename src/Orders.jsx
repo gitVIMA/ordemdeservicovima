@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Container,
@@ -12,13 +12,10 @@ import {
   MenuItem,
 } from '@mui/material';
 import { db } from './firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 const Orders = () => {
-  // Estado para armazenar as ordens de serviço
   const [orders, setOrders] = useState([]);
-
-  // Estado para armazenar os dados do novo pedido
   const [newOrderData, setNewOrderData] = useState({ 
     cliente: '', 
     tecnico: '', 
@@ -27,7 +24,17 @@ const Orders = () => {
     status: 'Pendente' 
   });
 
-  // Função para adicionar uma nova ordem
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const ordersCollection = collection(db, 'orders');
+      const ordersSnapshot = await getDocs(ordersCollection);
+      const ordersData = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setOrders(ordersData);
+    };
+
+    fetchOrders();
+  }, []);
+
   const addOrder = async () => {
     const newOrder = {
       cliente: newOrderData.cliente,
@@ -38,8 +45,8 @@ const Orders = () => {
     };
 
     try {
-      const docRef = await addDoc(collection(db, 'orders'), newOrder);
-      console.log('Document written with ID: ', docRef.id);
+      const ordersRef = collection(db, 'orders');
+      const docRef = await addDoc(ordersRef, newOrder);
 
       setOrders([...orders, { id: docRef.id, ...newOrder }]);
       setNewOrderData({ 
@@ -54,9 +61,16 @@ const Orders = () => {
     }
   };
 
-  // Função para remover uma ordem
-  const deleteOrder = (id) => {
-    setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
+  const deleteOrder = async (id) => {
+    try {
+      // Remove do Firestore
+      await deleteDoc(doc(db, 'orders', id));
+      
+      // Remove do estado local
+      setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
   };
 
   return (
