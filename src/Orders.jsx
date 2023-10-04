@@ -217,70 +217,60 @@ const Orders = () => {
         </Typography>
         {/* Formulário para abrir uma nova ordem */}
         <form onSubmit={(e) => { e.preventDefault(); editingOrderId ? saveEdit() : addOrder(); }} className="form-container">
-          <div>
-            <label>
-              Cliente:
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={newOrderData.cliente}
-                onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
-                required
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Técnico:
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={newOrderData.tecnico}
-                onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
-                required
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Tipo de Serviço:
-              <FormControl fullWidth>
-                <InputLabel></InputLabel>
-                <Select
-                  value={newOrderData.tipoServico}
-                  onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
-                >
-                  <MenuItem value="Instalação">Instalação</MenuItem>
-                  <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
-                  <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
-                </Select>
-              </FormControl>
-            </label>
-          </div>
-          <div>
-            <label>
-              Número de Instalação:
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={newOrderData.numeroInstalacao}
-                onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
-                required
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Endereço:
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={newOrderData.endereco}
-                onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
-                required
-              />
-            </label>
-          </div>
+         <div>
+  <TextField
+    fullWidth
+    variant="outlined"
+    label="Cliente"
+    value={newOrderData.cliente}
+    onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
+    required
+  />
+</div>
+<div>
+  <TextField
+    fullWidth
+    variant="outlined"
+    label="Técnico"
+    value={newOrderData.tecnico}
+    onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
+    required
+  />
+</div>
+<div>
+  <FormControl fullWidth variant="outlined">
+    <InputLabel>Tipo de Serviço</InputLabel>
+    <Select
+      value={newOrderData.tipoServico}
+      onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
+      label="Tipo de Serviço"
+    >
+      <MenuItem value="Instalação">Instalação</MenuItem>
+      <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
+      <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
+    </Select>
+  </FormControl>
+</div>
+<div>
+  <TextField
+    fullWidth
+    variant="outlined"
+    label="Número de Instalação"
+    value={newOrderData.numeroInstalacao}
+    onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
+    required
+  />
+</div>
+<div>
+  <TextField
+    fullWidth
+    variant="outlined"
+    label="Endereço"
+    value={newOrderData.endereco}
+    onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
+    required
+  />
+</div>
           <div>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
