@@ -84,7 +84,7 @@ const Orders = () => {
         }}
       >
         <Typography variant="h4" gutterBottom>
-          Ordens de Serviço
+          O.S - VIMA Telecom / CEMIG (setor de medição)
         </Typography>
         {/* Formulário para abrir uma nova ordem */}
         <form onSubmit={(e) => { e.preventDefault(); addOrder(); }}>
