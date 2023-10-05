@@ -14,9 +14,10 @@ import {
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
+
 const OrderCard = ({ order }) => {
   return (
-    <Card variant="outlined" sx={{ marginBottom: '1rem' }}>
+    <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           <strong>Cliente:</strong> {order.cliente}
@@ -37,6 +38,7 @@ const OrderCard = ({ order }) => {
           <strong>Status:</strong> {order.status}
         </Typography>
       </CardContent>
+     
     </Card>
   );
 };
@@ -69,15 +71,16 @@ const Orders = () => {
       alignItems="center"
       mt="5rem"
       px={2}
+      fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
     >
       <Box display="flex" alignItems="center" mb={2}>
-        <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '120px', marginRight: '20px' }} />
-        <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '85px' }} />
+        <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '80px', marginRight: '20px' }} />
+        <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '60px' }} />
       </Box>
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom align="center">
+            <Typography variant="h4" gutterBottom align="center" color="primary">
               Ordens de Serviço
             </Typography>
           </Grid>
