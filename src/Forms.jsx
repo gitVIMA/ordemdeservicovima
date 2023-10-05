@@ -219,7 +219,7 @@ const Orders = () => {
           <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '120px' }} />
           <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '85px' }} />
         </div>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom align="center">
           Ordens de Serviço
         </Typography>
         {/* Formulário para abrir uma nova ordem */}
