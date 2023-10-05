@@ -5,6 +5,7 @@ import {
   Box,
   Card,
   CardContent,
+  Grid,
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -50,43 +51,48 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
+  // Agrupar pedidos por tipo de serviço
+  const groupedOrders = orders.reduce((acc, order) => {
+    if (!acc[order.tipoServico]) {
+      acc[order.tipoServico] = [];
+    }
+    acc[order.tipoServico].push(order);
+    return acc;
+  }, {});
+
   return (
-    <Container maxWidth="sm" sx={{ marginTop: '5rem' }}>
+    <Container maxWidth="lg" sx={{ marginTop: '5rem' }}>
       <Box
         sx={{
           border: 1,
           borderColor: 'divider',
           borderRadius: '1rem',
           p: 4,
-          '& .order-list': {
-            listStyleType: 'none',
-            padding: 0,
-            marginTop: '2rem',
-          },
-          '& .order-list li': {
-            marginBottom: '1rem',
-          },
-          '& .order-list strong': {
-            marginRight: '0.5rem',
-          },
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-          <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '120px' }} />
-          <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '85px' }} />
-        </div>
-        <Typography variant="h4" gutterBottom>
-          Ordens de Serviço
-        </Typography>
-        {/* Exibir a lista de ordens de serviço */}
-        <div className="order-list">
-          {orders.map((order) => (
-            <OrderCard
-              key={order.id}
-              order={order}
-            />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" gutterBottom>
+              Ordens de Serviço
+            </Typography>
+          </Grid>
+          {/* Renderizar cada tipo de serviço em uma coluna */}
+          {Object.keys(groupedOrders).map((tipoServico) => (
+            <Grid item xs={12} sm={6} md={4} key={tipoServico}>
+              <Typography variant="h6" gutterBottom>
+                {tipoServico}
+              </Typography>
+              <div className="order-list">
+                {groupedOrders[tipoServico].map((order) => (
+                  <OrderCard
+                    key={order.id}
+                    order={order}
+                  />
+                ))}
+              </div>
+            </Grid>
           ))}
-        </div>
+        </Grid>
       </Box>
     </Container>
   );
