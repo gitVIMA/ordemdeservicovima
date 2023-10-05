@@ -43,7 +43,7 @@ const OrderCard = ({ order }) => {
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [filter, setFilter] = useState(''); // Estado para armazenar o filtro
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -60,27 +60,28 @@ const Orders = () => {
     setFilter(event.target.value);
   };
 
-  // Filtrar pedidos com base no tipo de serviço selecionado
   const filteredOrders = filter ? orders.filter(order => order.tipoServico === filter) : orders;
 
   return (
-    <Container maxWidth="lg" sx={{ marginTop: '5rem' }}>
-      <Box
-        sx={{
-          border: 1,
-          borderColor: 'divider',
-          borderRadius: '1rem',
-          p: 4,
-        }}
-      >
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      mt="5rem"
+      px={2}
+    >
+      <Box display="flex" alignItems="center" mb={2}>
+        <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '120px', marginRight: '20px' }} />
+        <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '85px' }} />
+      </Box>
+      <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom align="center">
               Ordens de Serviço
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            {/* Componente de seleção para filtrar por tipo de serviço */}
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Tipo de Serviço</InputLabel>
               <Select
@@ -95,7 +96,6 @@ const Orders = () => {
               </Select>
             </FormControl>
           </Grid>
-          {/* Renderizar pedidos filtrados */}
           {filteredOrders.map((order) => (
             <Grid item xs={12} sm={6} md={4} key={order.id}>
               <OrderCard
@@ -104,8 +104,8 @@ const Orders = () => {
             </Grid>
           ))}
         </Grid>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 
