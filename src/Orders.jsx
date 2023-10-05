@@ -37,6 +37,9 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Endereço:</strong> {order.endereco}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Status:</strong> {order.status}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button
