@@ -6,6 +6,10 @@ import {
   Card,
   CardContent,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -39,6 +43,7 @@ const OrderCard = ({ order }) => {
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [filter, setFilter] = useState(''); // Estado para armazenar o filtro
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -51,14 +56,12 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  // Agrupar pedidos por tipo de serviço
-  const groupedOrders = orders.reduce((acc, order) => {
-    if (!acc[order.tipoServico]) {
-      acc[order.tipoServico] = [];
-    }
-    acc[order.tipoServico].push(order);
-    return acc;
-  }, {});
+  const handleChangeFilter = (event) => {
+    setFilter(event.target.value);
+  };
+
+  // Filtrar pedidos com base no tipo de serviço selecionado
+  const filteredOrders = filter ? orders.filter(order => order.tipoServico === filter) : orders;
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: '5rem' }}>
@@ -76,20 +79,28 @@ const Orders = () => {
               Ordens de Serviço
             </Typography>
           </Grid>
-          {/* Renderizar cada tipo de serviço em uma coluna */}
-          {Object.keys(groupedOrders).map((tipoServico) => (
-            <Grid item xs={12} sm={6} md={4} key={tipoServico}>
-              <Typography variant="h6" gutterBottom>
-                {tipoServico}
-              </Typography>
-              <div className="order-list">
-                {groupedOrders[tipoServico].map((order) => (
-                  <OrderCard
-                    key={order.id}
-                    order={order}
-                  />
-                ))}
-              </div>
+          <Grid item xs={12}>
+            {/* Componente de seleção para filtrar por tipo de serviço */}
+            <FormControl fullWidth variant="outlined" size="small">
+              <InputLabel>Tipo de Serviço</InputLabel>
+              <Select
+                value={filter}
+                onChange={handleChangeFilter}
+                label="Tipo de Serviço"
+              >
+                <MenuItem value="">Todos</MenuItem>
+                <MenuItem value="Instalação">Instalação</MenuItem>
+                <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
+                <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          {/* Renderizar pedidos filtrados */}
+          {filteredOrders.map((order) => (
+            <Grid item xs={12} sm={6} md={4} key={order.id}>
+              <OrderCard
+                order={order}
+              />
             </Grid>
           ))}
         </Grid>
