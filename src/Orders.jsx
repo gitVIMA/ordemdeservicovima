@@ -50,6 +50,8 @@ const OrderCard = ({ order }) => {
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('');
+  const [sortBy, setSortBy] = useState('dataPrevistaAcao');
+  const [sortDirection, setSortDirection] = useState('asc');
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -74,7 +76,21 @@ const Orders = () => {
     setFilter(event.target.value);
   };
 
-  const filteredOrders = filter ? orders.filter(order => order.tipoServico === filter) : orders;
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
+
+  const handleSortDirectionChange = (event) => {
+    setSortDirection(event.target.value);
+  };
+
+  const sortedOrders = [...orders].sort((orderA, orderB) => {
+    const valueA = orderA[sortBy] || '';
+    const valueB = orderB[sortBy] || '';
+    return sortDirection === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+  });
+
+  const filteredOrders = filter ? sortedOrders.filter(order => order.tipoServico === filter) : sortedOrders;
 
   return (
     <Box
@@ -108,6 +124,38 @@ const Orders = () => {
                 <MenuItem value="Instalação">Instalação</MenuItem>
                 <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
                 <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '1rem' }}>
+              <InputLabel>Ordenar Por</InputLabel>
+              <Select
+                value={sortBy}
+                onChange={handleSortChange}
+                label="Ordenar Por"
+              >
+                <MenuItem value="dataPrevistaAcao">Data Prevista para Ação</MenuItem>
+                <MenuItem value="migrationDate">Data de Migração</MenuItem>
+                <MenuItem value="cliente">Cliente</MenuItem>
+                <MenuItem value="tecnico">Técnico</MenuItem>
+                <MenuItem value="tipoServico">Tipo de Serviço</MenuItem>
+                <MenuItem value="numeroInstalacao">Número de Instalação</MenuItem>
+                <MenuItem value="endereco">Endereço</MenuItem>
+                <MenuItem value="status">Status</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" size="small">
+              <InputLabel>Direção da Ordenação</InputLabel>
+              <Select
+                value={sortDirection}
+                onChange={handleSortDirectionChange}
+                label="Direção da Ordenação"
+              >
+                <MenuItem value="asc">Crescente</MenuItem>
+                <MenuItem value="desc">Decrescente</MenuItem>
               </Select>
             </FormControl>
           </Grid>
