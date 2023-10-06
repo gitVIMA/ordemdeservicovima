@@ -14,7 +14,6 @@ import {
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
-
 const OrderCard = ({ order }) => {
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
@@ -37,8 +36,13 @@ const OrderCard = ({ order }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Status:</strong> {order.status}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Data de Migração:</strong> {order.dataMigracao}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Data prevista para Ação:</strong> {order.dataPrevistaAcao}
+        </Typography>
       </CardContent>
-     
     </Card>
   );
 };
@@ -51,7 +55,15 @@ const Orders = () => {
     const fetchOrders = async () => {
       const ordersCollection = collection(db, 'orders');
       const ordersSnapshot = await getDocs(ordersCollection);
-      const ordersData = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const ordersData = ordersSnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          dataMigracao: data.dataMigracao,
+          dataPrevistaAcao: data.dataPrevistaAcao,
+        };
+      });
       setOrders(ordersData);
     };
 
