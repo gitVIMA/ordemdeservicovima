@@ -37,7 +37,7 @@ const OrderCard = ({ order }) => {
           <strong>Status:</strong> {order.status}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Data de Migração:</strong> {order.dataMigracao}
+          <strong>Data de Migração:</strong> {order.migrationDate}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Data prevista para Ação:</strong> {order.dataPrevistaAcao}

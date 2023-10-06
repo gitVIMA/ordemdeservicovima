@@ -115,10 +115,10 @@ const Orders = () => {
       setNewOrderData({ 
         cliente: '', 
         tecnico: '', 
-        tipoServico: 'Instalação', 
+        tipoServico: '', 
         numeroInstalacao: '', 
         endereco: '', 
-        status: 'Pendente', 
+        status: '', 
         migrationDate: '', 
         dataPrevistaAcao: '', 
       });
