@@ -40,6 +40,11 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Status:</strong> {order.status}
         </Typography>
+        {order.tipoServico === 'Instalação' && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Data de Migração:</strong> {order.migrationDate}
+          </Typography>
+        )}
       </CardContent>
       <CardActions>
         <Button
@@ -64,13 +69,15 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [newOrderData, setNewOrderData] = useState({ 
-    cliente: '', 
-    tecnico: '', 
-    tipoServico: '', 
-    numeroInstalacao: '', 
-    endereco: '', 
-    status: '' 
-  });
+  cliente: '', 
+  tecnico: '', 
+  tipoServico: '', 
+  numeroInstalacao: '', 
+  endereco: '', 
+  status: '', 
+  migrationDate: '', // Inicialize como uma string vazia
+});
+
   const [editingOrderId, setEditingOrderId] = useState(null);
 
   useEffect(() => {
@@ -92,6 +99,7 @@ const Orders = () => {
       numeroInstalacao: newOrderData.numeroInstalacao,
       endereco: newOrderData.endereco,
       status: newOrderData.status,
+      migrationDate: newOrderData.migrationDate, // Adicionado campo de data
     };
 
     try {
@@ -105,7 +113,8 @@ const Orders = () => {
         tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
-        status: 'Pendente' 
+        status: 'Pendente', 
+        migrationDate: '', // Limpar campo de data
       });
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -153,7 +162,8 @@ const Orders = () => {
         tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
-        status: 'Pendente' 
+        status: 'Pendente', 
+        migrationDate: '', // Limpar campo de data
       });
     } catch (error) {
       console.error('Error updating order: ', error);
@@ -168,7 +178,8 @@ const Orders = () => {
       tipoServico: 'Instalação', 
       numeroInstalacao: '', 
       endereco: '', 
-      status: 'Pendente' 
+      status: 'Pendente', 
+      migrationDate: '', // Limpar campo de data
     });
   };
 
@@ -286,6 +297,22 @@ const Orders = () => {
     required
   />
 </div>
+{newOrderData.tipoServico === 'Instalação' && (
+  <div>
+    <TextField
+      fullWidth
+      variant="outlined"
+      label="Data de Migração"
+      size="small"
+      sx={{ marginBottom: '0.5rem' }}
+      value={newOrderData.migrationDate}
+      onChange={(e) => setNewOrderData({ ...newOrderData, migrationDate: e.target.value })}
+      required // Adicione a propriedade required
+      type="date"
+    />
+  </div>
+)}
+
           <div>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
