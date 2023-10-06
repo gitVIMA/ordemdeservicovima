@@ -45,6 +45,9 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
             <strong>Data de Migração:</strong> {order.migrationDate}
           </Typography>
         )}
+        <Typography variant="body2" color="text.secondary">
+          <strong>Data Prevista para Ação:</strong> {order.dataPrevistaAcao}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button
@@ -69,14 +72,15 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [newOrderData, setNewOrderData] = useState({ 
-  cliente: '', 
-  tecnico: '', 
-  tipoServico: '', 
-  numeroInstalacao: '', 
-  endereco: '', 
-  status: '', 
-  migrationDate: '', // Inicialize como uma string vazia
-});
+    cliente: '', 
+    tecnico: '', 
+    tipoServico: '', 
+    numeroInstalacao: '', 
+    endereco: '', 
+    status: 'Pendente', 
+    migrationDate: '', 
+    dataPrevistaAcao: '', 
+  });
 
   const [editingOrderId, setEditingOrderId] = useState(null);
 
@@ -99,7 +103,8 @@ const Orders = () => {
       numeroInstalacao: newOrderData.numeroInstalacao,
       endereco: newOrderData.endereco,
       status: newOrderData.status,
-      migrationDate: newOrderData.migrationDate, // Adicionado campo de data
+      migrationDate: newOrderData.migrationDate, 
+      dataPrevistaAcao: newOrderData.dataPrevistaAcao, 
     };
 
     try {
@@ -114,7 +119,8 @@ const Orders = () => {
         numeroInstalacao: '', 
         endereco: '', 
         status: 'Pendente', 
-        migrationDate: '', // Limpar campo de data
+        migrationDate: '', 
+        dataPrevistaAcao: '', 
       });
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -163,7 +169,8 @@ const Orders = () => {
         numeroInstalacao: '', 
         endereco: '', 
         status: 'Pendente', 
-        migrationDate: '', // Limpar campo de data
+        migrationDate: '', 
+        dataPrevistaAcao: '', 
       });
     } catch (error) {
       console.error('Error updating order: ', error);
@@ -179,7 +186,8 @@ const Orders = () => {
       numeroInstalacao: '', 
       endereco: '', 
       status: 'Pendente', 
-      migrationDate: '', // Limpar campo de data
+      migrationDate: '', 
+      dataPrevistaAcao: '', 
     });
   };
 
@@ -235,84 +243,96 @@ const Orders = () => {
         </Typography>
         {/* Formulário para abrir uma nova ordem */}
         <form onSubmit={(e) => { e.preventDefault(); editingOrderId ? saveEdit() : addOrder(); }} className="form-container">
-       <div>
-  <TextField
-    fullWidth
-    variant="outlined"
-    label="Cliente"
-    size="small"
-    sx={{ marginBottom: '0.5rem' }}
-    value={newOrderData.cliente}
-    onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
-    required
-  />
-</div>
-<div>
-  <TextField
-    fullWidth
-    variant="outlined"
-    label="Técnico"
-    size="small"
-    sx={{ marginBottom: '0.5rem' }}
-    value={newOrderData.tecnico}
-    onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
-    required
-  />
-</div>
-<div>
-  <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '0.5rem' }}>
-    <InputLabel>Tipo de Serviço</InputLabel>
-    <Select
-      value={newOrderData.tipoServico}
-      onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
-      label="Tipo de Serviço"
-    >
-      <MenuItem value="Instalação">Instalação</MenuItem>
-      <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
-      <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
-    </Select>
-  </FormControl>
-</div>
-<div>
-  <TextField
-    fullWidth
-    variant="outlined"
-    label="Número de Instalação"
-    size="small"
-    sx={{ marginBottom: '0.5rem' }}
-    value={newOrderData.numeroInstalacao}
-    onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
-    required
-  />
-</div>
-<div>
-  <TextField
-    fullWidth
-    variant="outlined"
-    label="Endereço"
-    size="small"
-    sx={{ marginBottom: '0.5rem' }}
-    value={newOrderData.endereco}
-    onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
-    required
-  />
-</div>
-{newOrderData.tipoServico === 'Instalação' && (
-  <div>
-    <TextField
-      fullWidth
-      variant="outlined"
-      label="Data de Migração"
-      size="small"
-      sx={{ marginBottom: '0.5rem' }}
-      value={newOrderData.migrationDate}
-      onChange={(e) => setNewOrderData({ ...newOrderData, migrationDate: e.target.value })}
-      required // Adicione a propriedade required
-      type="date"
-    />
-  </div>
-)}
-
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Cliente"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.cliente}
+              onChange={(e) => setNewOrderData({ ...newOrderData, cliente: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Técnico"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.tecnico}
+              onChange={(e) => setNewOrderData({ ...newOrderData, tecnico: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '0.5rem' }}>
+              <InputLabel>Tipo de Serviço</InputLabel>
+              <Select
+                value={newOrderData.tipoServico}
+                onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
+                label="Tipo de Serviço"
+              >
+                <MenuItem value="Instalação">Instalação</MenuItem>
+                <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
+                <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Número de Instalação"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.numeroInstalacao}
+              onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Endereço"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.endereco}
+              onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
+              required
+            />
+          </div>
+          {newOrderData.tipoServico === 'Instalação' && (
+            <div>
+              <TextField
+                fullWidth
+                variant="outlined"
+                label="Data de Migração"
+                size="small"
+                sx={{ marginBottom: '0.5rem' }}
+                value={newOrderData.migrationDate}
+                onChange={(e) => setNewOrderData({ ...newOrderData, migrationDate: e.target.value })}
+                required 
+                type="date"
+              />
+            </div>
+          )}
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Data Prevista para Ação"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.dataPrevistaAcao}
+              onChange={(e) => setNewOrderData({ ...newOrderData, dataPrevistaAcao: e.target.value })}
+              required 
+              type="date"
+            />
+          </div>
           <div>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
