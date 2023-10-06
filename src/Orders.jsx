@@ -10,6 +10,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Button
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -52,6 +53,7 @@ const Orders = () => {
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('dataPrevistaAcao');
   const [sortDirection, setSortDirection] = useState('asc');
+  const [hideCompleted, setHideCompleted] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -76,7 +78,7 @@ const Orders = () => {
     setFilter(event.target.value);
   };
 
-  const handleSortChange = (event) => {
+  const handleSortByChange = (event) => {
     setSortBy(event.target.value);
   };
 
@@ -84,13 +86,24 @@ const Orders = () => {
     setSortDirection(event.target.value);
   };
 
-  const sortedOrders = [...orders].sort((orderA, orderB) => {
-    const valueA = orderA[sortBy] || '';
-    const valueB = orderB[sortBy] || '';
-    return sortDirection === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
-  });
+  const handleHideCompletedToggle = () => {
+    setHideCompleted(prev => !prev);
+  };
+
+  const sortedOrders = [...orders].sort((a, b) => {
+  const fieldA = a[sortBy] || ''; // Garante que fieldA tenha um valor
+  const fieldB = b[sortBy] || ''; // Garante que fieldB tenha um valor
+
+  if (sortDirection === 'asc') {
+    return fieldA.localeCompare(fieldB);
+  } else {
+    return fieldB.localeCompare(fieldA);
+  }
+});
 
   const filteredOrders = filter ? sortedOrders.filter(order => order.tipoServico === filter) : sortedOrders;
+
+  const displayedOrders = hideCompleted ? filteredOrders.filter(order => order.status !== 'Concluída') : filteredOrders;
 
   return (
     <Box
@@ -128,21 +141,16 @@ const Orders = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '1rem' }}>
+            <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Ordenar Por</InputLabel>
               <Select
                 value={sortBy}
-                onChange={handleSortChange}
+                onChange={handleSortByChange}
                 label="Ordenar Por"
               >
-                <MenuItem value="dataPrevistaAcao">Data Prevista para Ação</MenuItem>
+                <MenuItem value="dataPrevistaAcao">Data Prevista</MenuItem>
                 <MenuItem value="migrationDate">Data de Migração</MenuItem>
-                <MenuItem value="cliente">Cliente</MenuItem>
-                <MenuItem value="tecnico">Técnico</MenuItem>
-                <MenuItem value="tipoServico">Tipo de Serviço</MenuItem>
-                <MenuItem value="numeroInstalacao">Número de Instalação</MenuItem>
-                <MenuItem value="endereco">Endereço</MenuItem>
-                <MenuItem value="status">Status</MenuItem>
+                {/* Adicione outros campos conforme necessário */}
               </Select>
             </FormControl>
           </Grid>
@@ -159,7 +167,12 @@ const Orders = () => {
               </Select>
             </FormControl>
           </Grid>
-          {filteredOrders.map((order) => (
+          <Grid item xs={12}>
+            <Button variant="contained" onClick={handleHideCompletedToggle}>
+              {hideCompleted ? 'Mostrar Concluídas' : 'Ocultar Concluídas'}
+            </Button>
+          </Grid>
+          {displayedOrders.map((order) => (
             <Grid item xs={12} sm={6} md={4} key={order.id}>
               <OrderCard
                 order={order}
