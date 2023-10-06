@@ -29,10 +29,10 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
           <strong>Técnico:</strong> {order.tecnico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Tipo de Serviço:</strong> {order.tipoServico}
+          <strong>Tipo de serviço:</strong> {order.tipoServico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Número de Instalação:</strong> {order.numeroInstalacao}
+          <strong>Número de instalação:</strong> {order.numeroInstalacao}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Endereço:</strong> {order.endereco}
@@ -42,11 +42,11 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         </Typography>
         {order.tipoServico === 'Instalação' && (
           <Typography variant="body2" color="text.secondary">
-            <strong>Data de Migração:</strong> {order.migrationDate}
+            <strong>Data de migração:</strong> {order.migrationDate}
           </Typography>
         )}
         <Typography variant="body2" color="text.secondary">
-          <strong>Data Prevista para Ação:</strong> {order.dataPrevistaAcao}
+          <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
         </Typography>
       </CardContent>
       <CardActions>
@@ -269,11 +269,11 @@ const Orders = () => {
           </div>
           <div>
             <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '0.5rem' }}>
-              <InputLabel>Tipo de Serviço</InputLabel>
+              <InputLabel>Tipo de serviço</InputLabel>
               <Select
                 value={newOrderData.tipoServico}
                 onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
-                label="Tipo de Serviço"
+                label="Tipo de serviço"
               >
                 <MenuItem value="Instalação">Instalação</MenuItem>
                 <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
@@ -285,7 +285,7 @@ const Orders = () => {
             <TextField
               fullWidth
               variant="outlined"
-              label="Número de Instalação"
+              label="Número de instalação"
               size="small"
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.numeroInstalacao}
@@ -310,7 +310,7 @@ const Orders = () => {
               <TextField
                 fullWidth
                 variant="outlined"
-                label="Data de Migração"
+                label="Data de migração"
                 size="small"
                 sx={{ marginBottom: '0.5rem' }}
                 value={newOrderData.migrationDate}
@@ -324,7 +324,7 @@ const Orders = () => {
             <TextField
               fullWidth
               variant="outlined"
-              label="Data Prevista para Ação"
+              label="Data prevista para atendimento"
               size="small"
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.dataPrevistaAcao}

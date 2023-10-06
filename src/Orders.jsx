@@ -26,10 +26,10 @@ const OrderCard = ({ order }) => {
           <strong>Técnico:</strong> {order.tecnico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Tipo de Serviço:</strong> {order.tipoServico}
+          <strong>Tipo de serviço:</strong> {order.tipoServico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Número de Instalação:</strong> {order.numeroInstalacao}
+          <strong>Número de instalação:</strong> {order.numeroInstalacao}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Endereço:</strong> {order.endereco}
@@ -38,10 +38,10 @@ const OrderCard = ({ order }) => {
           <strong>Status:</strong> {order.status}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Data de Migração:</strong> {order.migrationDate}
+          <strong>Data de migração:</strong> {order.migrationDate}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Data prevista para Ação:</strong> {order.dataPrevistaAcao}
+          <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
         </Typography>
       </CardContent>
     </Card>
@@ -127,11 +127,11 @@ const Orders = () => {
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" size="small">
-              <InputLabel>Tipo de Serviço</InputLabel>
+              <InputLabel>Tipo de serviço</InputLabel>
               <Select
                 value={filter}
                 onChange={handleChangeFilter}
-                label="Tipo de Serviço"
+                label="Tipo de serviço"
               >
                 <MenuItem value="">Todos</MenuItem>
                 <MenuItem value="Instalação">Instalação</MenuItem>
@@ -148,8 +148,8 @@ const Orders = () => {
                 onChange={handleSortByChange}
                 label="Ordenar Por"
               >
-                <MenuItem value="dataPrevistaAcao">Data Prevista</MenuItem>
-                <MenuItem value="migrationDate">Data de Migração</MenuItem>
+                <MenuItem value="dataPrevistaAcao">Data prevista para atendimento</MenuItem>
+                <MenuItem value="migrationDate">Data de migração</MenuItem>
                 {/* Adicione outros campos conforme necessário */}
               </Select>
             </FormControl>
