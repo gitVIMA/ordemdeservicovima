@@ -59,6 +59,7 @@ const Orders = () => {
   const [sortBy, setSortBy] = useState('dataPrevistaAcao');
   const [sortDirection, setSortDirection] = useState('asc');
   const [hideCompleted, setHideCompleted] = useState(false);
+  const [orderCount, setOrderCount] = useState(0);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -74,13 +75,25 @@ const Orders = () => {
         };
       });
       setOrders(ordersData);
+      setOrderCount(ordersData.length);
     };
 
     fetchOrders();
   }, []);
 
+  const updateOrderCount = (filteredOrders) => {
+    setOrderCount(filteredOrders.length);
+  };
+
   const handleChangeFilter = (event) => {
-    setFilter(event.target.value);
+    const selectedFilter = event.target.value;
+    setFilter(selectedFilter);
+
+    const filteredOrders = selectedFilter
+      ? orders.filter(order => order.tipoServico === selectedFilter)
+      : orders;
+
+    updateOrderCount(filteredOrders);
   };
 
   const handleSortByChange = (event) => {
@@ -96,19 +109,23 @@ const Orders = () => {
   };
 
   const sortedOrders = [...orders].sort((a, b) => {
-  const fieldA = a[sortBy] || ''; // Garante que fieldA tenha um valor
-  const fieldB = b[sortBy] || ''; // Garante que fieldB tenha um valor
+    const fieldA = a[sortBy] || '';
+    const fieldB = b[sortBy] || '';
 
-  if (sortDirection === 'asc') {
-    return fieldA.localeCompare(fieldB);
-  } else {
-    return fieldB.localeCompare(fieldA);
-  }
-});
+    if (sortDirection === 'asc') {
+      return fieldA.localeCompare(fieldB);
+    } else {
+      return fieldB.localeCompare(fieldA);
+    }
+  });
 
-  const filteredOrders = filter ? sortedOrders.filter(order => order.tipoServico === filter) : sortedOrders;
+  const filteredOrders = filter
+    ? sortedOrders.filter(order => order.tipoServico === filter)
+    : sortedOrders;
 
-  const displayedOrders = hideCompleted ? filteredOrders.filter(order => order.status !== 'Concluída') : filteredOrders;
+  const displayedOrders = hideCompleted
+    ? filteredOrders.filter(order => order.status !== 'Concluída')
+    : filteredOrders;
 
   return (
     <Box
@@ -155,7 +172,6 @@ const Orders = () => {
               >
                 <MenuItem value="dataPrevistaAcao">Data prevista para atendimento</MenuItem>
                 <MenuItem value="migrationDate">Data de migração</MenuItem>
-                {/* Adicione outros campos conforme necessário */}
               </Select>
             </FormControl>
           </Grid>
@@ -176,6 +192,11 @@ const Orders = () => {
             <Button variant="contained" onClick={handleHideCompletedToggle}>
               {hideCompleted ? 'Mostrar Concluídas' : 'Ocultar Concluídas'}
             </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" color="text.secondary">
+              Total de Ordens: {orderCount}
+            </Typography>
           </Grid>
           {displayedOrders.map((order) => (
             <Grid item xs={12} sm={6} md={4} key={order.id}>
