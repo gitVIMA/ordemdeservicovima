@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
   Typography,
@@ -36,7 +36,7 @@ const OrderCard = ({ order }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Número de instalação:</strong> {order.numeroInstalacao}
         </Typography>
-         <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary">
           <strong>Endereço:</strong> <a href="#" onClick={handleOpenInMaps}>{order.endereco}</a>
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -60,6 +60,21 @@ const Orders = () => {
   const [sortDirection, setSortDirection] = useState('asc');
   const [hideCompleted, setHideCompleted] = useState(false);
   const [orderCount, setOrderCount] = useState(0);
+  const [displayedOrderCount, setDisplayedOrderCount] = useState(0);
+  const [statusCounts, setStatusCounts] = useState({});
+  const [displayedStatusCounts, setDisplayedStatusCounts] = useState({});
+  const filteredOrdersRef = useRef([]);
+
+  const countStatus = (filteredOrders) => {
+    const counts = {};
+
+    filteredOrders.forEach(order => {
+      const status = order.status;
+      counts[status] = (counts[status] || 0) + 1;
+    });
+
+    return counts;
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -81,8 +96,20 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
+  useEffect(() => {
+    const filteredOrders = filteredOrdersRef.current.filter(order => !hideCompleted ? order.status !== 'Concluída' : true);
+    setStatusCounts(countStatus(filteredOrders));
+    updateOrderCount(filteredOrders);
+    updateDisplayedOrderCount(filteredOrders.length);
+    setDisplayedStatusCounts(countStatus(displayedOrders));
+  }, [filteredOrdersRef.current, hideCompleted, orders, filter, sortBy, sortDirection]);
+
   const updateOrderCount = (filteredOrders) => {
     setOrderCount(filteredOrders.length);
+  };
+
+  const updateDisplayedOrderCount = (count) => {
+    setDisplayedOrderCount(count);
   };
 
   const handleChangeFilter = (event) => {
@@ -93,7 +120,15 @@ const Orders = () => {
       ? orders.filter(order => order.tipoServico === selectedFilter)
       : orders;
 
+    const displayedOrders = hideCompleted
+      ? filteredOrders.filter(order => order.status !== 'Concluída')
+      : filteredOrders;
+
+    setStatusCounts(countStatus(displayedOrders));
+
     updateOrderCount(filteredOrders);
+    updateDisplayedOrderCount(displayedOrders.length);
+    setDisplayedStatusCounts(countStatus(displayedOrders));
   };
 
   const handleSortByChange = (event) => {
@@ -194,9 +229,12 @@ const Orders = () => {
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body2" color="text.secondary">
-              Total de Ordens: {orderCount}
-            </Typography>
+            
+            {Object.keys(displayedStatusCounts).map(status => (
+              <Typography key={status} variant="body2" color="text.secondary">
+                {`Total de ${status}: ${displayedStatusCounts[status]}`}
+              </Typography>
+            ))}
           </Grid>
           {displayedOrders.map((order) => (
             <Grid item xs={12} sm={6} md={4} key={order.id}>
