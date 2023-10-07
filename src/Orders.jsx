@@ -16,6 +16,11 @@ import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 const OrderCard = ({ order }) => {
+  const handleOpenInMaps = () => {
+    const address = encodeURIComponent(order.endereco);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
+  };
+
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
       <CardContent>
@@ -31,8 +36,8 @@ const OrderCard = ({ order }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Número de instalação:</strong> {order.numeroInstalacao}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Endereço:</strong> {order.endereco}
+         <Typography variant="body2" color="text.secondary">
+          <strong>Endereço:</strong> <a href="#" onClick={handleOpenInMaps}>{order.endereco}</a>
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Status:</strong> {order.status}
