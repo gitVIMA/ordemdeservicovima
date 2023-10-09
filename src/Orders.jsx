@@ -23,7 +23,7 @@ const OrderCard = ({ order }) => {
   };
 
   return (
-    <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+    <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: order.status === 'Concluída' ? '#d9f7d9' : 'inherit' }}>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           <strong>Cliente:</strong> {order.cliente}
