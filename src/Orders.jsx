@@ -18,6 +18,14 @@ import {
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
+const formatarData = (data) => {
+  const dataObj = new Date(data);
+  const dia = String(dataObj.getDate()).padStart(2, '0');
+  const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+  const ano = dataObj.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+}
+
 const OrderCard = ({ order }) => {
   const handleOpenInMaps = () => {
     const address = encodeURIComponent(order.endereco);
@@ -36,33 +44,51 @@ const OrderCard = ({ order }) => {
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: cardColor }}>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Cliente:</strong> {order.cliente}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Técnico:</strong> {order.tecnico}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Contato do Responsável:</strong> {order.contatoResponsavel}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Tipo de serviço:</strong> {order.tipoServico}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Número de instalação:</strong> {order.numeroInstalacao}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Endereço:</strong> <a href="#" onClick={handleOpenInMaps}>{order.endereco}</a>
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Status:</strong> {order.status}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Data de migração:</strong> {order.migrationDate}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
-        </Typography>
+        {order.cliente && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Cliente:</strong> {order.cliente}
+          </Typography>
+        )}
+        {order.tecnico && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Técnico:</strong> {order.tecnico}
+          </Typography>
+        )}
+        {order.contatoResponsavel && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Contato do Responsável:</strong> {order.contatoResponsavel}
+          </Typography>
+        )}
+        {order.tipoServico && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Tipo de serviço:</strong> {order.tipoServico}
+          </Typography>
+        )}
+        {order.numeroInstalacao && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Número de instalação:</strong> {order.numeroInstalacao}
+          </Typography>
+        )}
+        {order.endereco && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Endereço:</strong> <a href="#" onClick={handleOpenInMaps}>{order.endereco}</a>
+          </Typography>
+        )}
+        {order.status && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Status:</strong> {order.status}
+          </Typography>
+        )}
+        {order.migrationDate && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Data de migração:</strong> {formatarData(order.migrationDate)}
+          </Typography>
+        )}
+        {order.dataPrevistaAcao && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Data prevista para atendimento:</strong> {formatarData(order.dataPrevistaAcao)}
+          </Typography>
+        )}
         {order.observacoes && (
           <Typography variant="body2" color="text.secondary">
             <strong>Observações:</strong> {order.observacoes}
@@ -70,15 +96,21 @@ const OrderCard = ({ order }) => {
         )}
         {order.tipoServico === 'Instalação' && (
           <>
-            <Typography variant="body2" color="text.secondary">
-              <strong>IP:</strong> {order.ip}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <strong>MÁSCARA:</strong> {order.mascara}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <strong>GATEWAY:</strong> {order.gateway}
-            </Typography>
+            {order.ip && (
+              <Typography variant="body2" color="text.secondary">
+                <strong>IP:</strong> {order.ip}
+              </Typography>
+            )}
+            {order.mascara && (
+              <Typography variant="body2" color="text.secondary">
+                <strong>MÁSCARA:</strong> {order.mascara}
+              </Typography>
+            )}
+            {order.gateway && (
+              <Typography variant="body2" color="text.secondary">
+                <strong>GATEWAY:</strong> {order.gateway}
+              </Typography>
+            )}
           </>
         )}
       </CardContent>
