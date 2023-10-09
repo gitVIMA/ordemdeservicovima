@@ -22,8 +22,19 @@ const OrderCard = ({ order }) => {
     window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
   };
 
+ // Mapeamento de cores por status
+  const statusColors = {
+    Pendente: '#ffd700',  // Amarelo para status "Pendente"
+    EmProgresso: '#ff8c00', // Laranja para status "Em Progresso"
+    Concluída: '#d9f7d9', // Verde para status "Concluída"
+    Cancelada: '#ff4500' // Vermelho para status "Cancelada"
+   
+  };
+
+  const cardColor = statusColors[order.status] || 'inherit'; // Cor padrão se o status não estiver mapeado
+
   return (
-    <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: order.status === 'Concluída' ? '#d9f7d9' : 'inherit' }}>
+    <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: cardColor }}>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           <strong>Cliente:</strong> {order.cliente}
