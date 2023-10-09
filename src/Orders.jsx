@@ -11,7 +11,9 @@ import {
   Select,
   MenuItem,
   Button,
-  TextField
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -22,16 +24,14 @@ const OrderCard = ({ order }) => {
     window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
   };
 
- // Mapeamento de cores por status
   const statusColors = {
-    Pendente: '#ffd700',  // Amarelo para status "Pendente"
-    EmProgresso: '#ff8c00', // Laranja para status "Em Progresso"
-    Concluída: '#d9f7d9', // Verde para status "Concluída"
-    Cancelada: '#ff4500' // Vermelho para status "Cancelada"
-   
+    Pendente: '#ffd700',
+    EmProgresso: '#ff8c00',
+    Concluída: '#d9f7d9',
+    Cancelada: '#ff4500'
   };
 
-  const cardColor = statusColors[order.status] || 'inherit'; // Cor padrão se o status não estiver mapeado
+  const cardColor = statusColors[order.status] || 'inherit';
 
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: cardColor }}>
@@ -96,6 +96,12 @@ const Orders = () => {
   const [displayedOrderCount, setDisplayedOrderCount] = useState(0);
   const [statusCounts, setStatusCounts] = useState({});
   const [displayedStatusCounts, setDisplayedStatusCounts] = useState({});
+  const [selectedStatus, setSelectedStatus] = useState({
+    Pendente: true,
+    EmProgresso: true,
+    Concluída: true,
+    Cancelada: true,
+  });
   const filteredOrdersRef = useRef([]);
 
   const countStatus = (filteredOrders) => {
@@ -176,6 +182,14 @@ const Orders = () => {
     setHideCompleted(prev => !prev);
   };
 
+  const handleStatusChange = (event) => {
+    const status = event.target.name;
+    setSelectedStatus(prevStatus => ({
+      ...prevStatus,
+      [status]: !prevStatus[status],
+    }));
+  };
+
   const sortedOrders = [...orders].sort((a, b) => {
     const fieldA = a[sortBy] || '';
     const fieldB = b[sortBy] || '';
@@ -192,8 +206,8 @@ const Orders = () => {
     : sortedOrders;
 
   const displayedOrders = hideCompleted
-    ? filteredOrders.filter(order => order.status !== 'Concluída')
-    : filteredOrders;
+    ? filteredOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status])
+    : filteredOrders.filter(order => selectedStatus[order.status]);
 
   return (
     <Box
@@ -257,9 +271,17 @@ const Orders = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" onClick={handleHideCompletedToggle}>
-              {hideCompleted ? 'Mostrar Concluídas' : 'Ocultar Concluídas'}
-            </Button>
+            <FormControl fullWidth size="small">
+              <FormGroup>
+                {Object.keys(selectedStatus).map(status => (
+                  <FormControlLabel
+                    key={status}
+                    control={<Checkbox checked={selectedStatus[status]} onChange={handleStatusChange} name={status} />}
+                    label={status}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             {Object.keys(displayedStatusCounts).map(status => (
