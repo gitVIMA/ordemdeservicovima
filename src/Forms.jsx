@@ -435,7 +435,7 @@ const Orders = () => {
                 onChange={(e) => setNewOrderData({ ...newOrderData, status: e.target.value })}
               >
                 <MenuItem value="Pendente">Pendente</MenuItem>
-                <MenuItem value="Em andamento">Em andamento</MenuItem>
+                <MenuItem value="EmProgresso">Em Progresso</MenuItem>
                 <MenuItem value="Concluída">Concluída</MenuItem>
                 <MenuItem value="Cancelada">Cancelada</MenuItem>
               </Select>
