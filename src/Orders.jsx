@@ -10,7 +10,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Button
+  Button,
+  TextField
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -31,6 +32,9 @@ const OrderCard = ({ order }) => {
           <strong>Técnico:</strong> {order.tecnico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+          <strong>Contato do Responsável:</strong> {order.contatoResponsavel}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
           <strong>Tipo de serviço:</strong> {order.tipoServico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -48,6 +52,24 @@ const OrderCard = ({ order }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
         </Typography>
+        {order.observacoes && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Observações:</strong> {order.observacoes}
+          </Typography>
+        )}
+        {order.tipoServico === 'Instalação' && (
+          <>
+            <Typography variant="body2" color="text.secondary">
+              <strong>IP:</strong> {order.ip}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>MÁSCARA:</strong> {order.mascara}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>GATEWAY:</strong> {order.gateway}
+            </Typography>
+          </>
+        )}
       </CardContent>
     </Card>
   );
@@ -229,7 +251,6 @@ const Orders = () => {
             </Button>
           </Grid>
           <Grid item xs={12}>
-            
             {Object.keys(displayedStatusCounts).map(status => (
               <Typography key={status} variant="body2" color="text.secondary">
                 {`Total de ${status}: ${displayedStatusCounts[status]}`}

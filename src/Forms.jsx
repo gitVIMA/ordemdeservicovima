@@ -29,6 +29,9 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
           <strong>Técnico:</strong> {order.tecnico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+          <strong>Contato do Responsável:</strong> {order.contatoResponsavel}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
           <strong>Tipo de serviço:</strong> {order.tipoServico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -48,6 +51,24 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
         </Typography>
+        {order.observacoes && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Observações:</strong> {order.observacoes}
+          </Typography>
+        )}
+        {order.tipoServico === 'Instalação' && (
+          <>
+            <Typography variant="body2" color="text.secondary">
+              <strong>IP:</strong> {order.ip}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>MÁSCARA:</strong> {order.mascara}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>GATEWAY:</strong> {order.gateway}
+            </Typography>
+          </>
+        )}
       </CardContent>
       <CardActions>
         <Button
@@ -74,12 +95,17 @@ const Orders = () => {
   const [newOrderData, setNewOrderData] = useState({ 
     cliente: '', 
     tecnico: '', 
+    contatoResponsavel: '', 
     tipoServico: '', 
     numeroInstalacao: '', 
     endereco: '', 
     status: 'Pendente', 
     migrationDate: '', 
     dataPrevistaAcao: '', 
+    observacoes: '',
+    ip: '172.25.35.',
+    mascara: '255.255.255.0',
+    gateway: '172.25.35.1',
   });
 
   const [editingOrderId, setEditingOrderId] = useState(null);
@@ -99,12 +125,17 @@ const Orders = () => {
     const newOrder = {
       cliente: newOrderData.cliente,
       tecnico: newOrderData.tecnico,
+      contatoResponsavel: newOrderData.contatoResponsavel,
       tipoServico: newOrderData.tipoServico,
       numeroInstalacao: newOrderData.numeroInstalacao,
       endereco: newOrderData.endereco,
       status: newOrderData.status,
       migrationDate: newOrderData.migrationDate, 
       dataPrevistaAcao: newOrderData.dataPrevistaAcao, 
+      observacoes: newOrderData.observacoes,
+      ip: newOrderData.ip,
+      mascara: newOrderData.mascara,
+      gateway: newOrderData.gateway,
     };
 
     try {
@@ -115,12 +146,17 @@ const Orders = () => {
       setNewOrderData({ 
         cliente: '', 
         tecnico: '', 
-        tipoServico: '', 
+        contatoResponsavel: '', 
+        tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
-        status: '', 
+        status: 'Pendente', 
         migrationDate: '', 
         dataPrevistaAcao: '', 
+        observacoes: '',
+        ip: '',
+        mascara: '',
+        gateway: '',
       });
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -165,12 +201,17 @@ const Orders = () => {
       setNewOrderData({ 
         cliente: '', 
         tecnico: '', 
+        contatoResponsavel: '', 
         tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
         status: 'Pendente', 
         migrationDate: '', 
         dataPrevistaAcao: '', 
+        observacoes: '',
+        ip: '',
+        mascara: '',
+        gateway: '',
       });
     } catch (error) {
       console.error('Error updating order: ', error);
@@ -182,12 +223,17 @@ const Orders = () => {
     setNewOrderData({ 
       cliente: '', 
       tecnico: '', 
+      contatoResponsavel: '', 
       tipoServico: 'Instalação', 
       numeroInstalacao: '', 
       endereco: '', 
       status: 'Pendente', 
       migrationDate: '', 
       dataPrevistaAcao: '', 
+      observacoes: '',
+      ip: '',
+      mascara: '',
+      gateway: '',
     });
   };
 
@@ -268,6 +314,17 @@ const Orders = () => {
             />
           </div>
           <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Contato do Responsável"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.contatoResponsavel}
+              onChange={(e) => setNewOrderData({ ...newOrderData, contatoResponsavel: e.target.value })}
+            />
+          </div>
+          <div>
             <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '0.5rem' }}>
               <InputLabel>Tipo de serviço</InputLabel>
               <Select
@@ -305,6 +362,43 @@ const Orders = () => {
               required
             />
           </div>
+          {newOrderData.tipoServico === 'Instalação' && (
+            <>
+              <div>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="IP"
+                  size="small"
+                  sx={{ marginBottom: '0.5rem' }}
+                  value={newOrderData.ip}
+                  onChange={(e) => setNewOrderData({ ...newOrderData, ip: e.target.value })}
+                />
+              </div>
+              <div>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="MÁSCARA"
+                  size="small"
+                  sx={{ marginBottom: '0.5rem' }}
+                  value={newOrderData.mascara}
+                  onChange={(e) => setNewOrderData({ ...newOrderData, mascara: e.target.value })}
+                />
+              </div>
+              <div>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="GATEWAY"
+                  size="small"
+                  sx={{ marginBottom: '0.5rem' }}
+                  value={newOrderData.gateway}
+                  onChange={(e) => setNewOrderData({ ...newOrderData, gateway: e.target.value })}
+                />
+              </div>
+            </>
+          )}
           {newOrderData.tipoServico === 'Instalação' && (
             <div>
               <TextField
@@ -345,6 +439,17 @@ const Orders = () => {
                 <MenuItem value="Concluída">Concluída</MenuItem>
               </Select>
             </FormControl>
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Observações"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.observacoes}
+              onChange={(e) => setNewOrderData({ ...newOrderData, observacoes: e.target.value })}
+            />
           </div>
           <Button variant="contained" type="submit" fullWidth>
             {editingOrderId ? 'Salvar Alterações' : 'Abrir Ordem de Serviço'}
