@@ -131,8 +131,8 @@ const Orders = () => {
   const [selectedStatus, setSelectedStatus] = useState({
     Pendente: true,
     EmProgresso: true,
-    Concluída: false,
-    Cancelada: false,
+    Concluída: true,
+    Cancelada: true,
   });
   const filteredOrdersRef = useRef([]);
 
