@@ -139,6 +139,14 @@ const Orders = () => {
     "Contato ou mensagem": true,
   });
   const filteredOrdersRef = useRef([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filterOrders = (orders, searchTerm) => {
+    return orders.filter(order => {
+      const values = Object.values(order).join(' ').toLowerCase();
+      return values.includes(searchTerm.toLowerCase());
+    });
+  };
 
   const countStatus = (filteredOrders) => {
     const counts = {};
@@ -249,9 +257,13 @@ const Orders = () => {
     ? sortedOrders.filter(order => order.tipoServico === filter)
     : sortedOrders;
 
+  const searchedOrders = searchTerm
+    ? filterOrders(filteredOrders, searchTerm)
+    : filteredOrders;
+
   const displayedOrders = hideCompleted
-    ? filteredOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status] && selectedFilters[order.tipoServico])
-    : filteredOrders.filter(order => selectedStatus[order.status] && selectedFilters[order.tipoServico]);
+    ? searchedOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status] && selectedFilters[order.tipoServico])
+    : searchedOrders.filter(order => selectedStatus[order.status] && selectedFilters[order.tipoServico]);
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(displayedOrders);
@@ -340,6 +352,15 @@ const Orders = () => {
                 {`Total de ${status}: ${displayedStatusCounts[status]}`}
               </Typography>
             ))}
+          </Grid>
+          <Grid item xs={12}>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Pesquisar..."
+              style={{ width: '100%', padding: '8px', fontSize: '1rem' }}
+            />
           </Grid>
           {displayedOrders.map((order) => (
             <Grid item xs={12} sm={6} md={4} key={order.id}>
