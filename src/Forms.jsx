@@ -26,7 +26,7 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
           <strong>Cliente:</strong> {order.cliente}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <strong>Técnico:</strong> {order.tecnico}
+          <strong>Especialista Técnico:</strong> {order.tecnico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Contato do Responsável:</strong> {order.contatoResponsavel}
@@ -305,7 +305,7 @@ const Orders = () => {
             <TextField
               fullWidth
               variant="outlined"
-              label="Técnico"
+              label="Especialista Técnico"
               size="small"
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.tecnico}

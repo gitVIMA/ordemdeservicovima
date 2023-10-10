@@ -1,6 +1,3 @@
 Configurar exibição da data para exibição DD/MM/AAAA
-Botão exportar dados para excel
-Ocultar itens em branco
 Adicionar agente responsável
-Mudar técnico para Especialista responsável
 Legenda de cores nas caixas de filtro

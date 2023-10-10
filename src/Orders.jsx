@@ -52,7 +52,7 @@ const OrderCard = ({ order }) => {
         )}
         {order.tecnico && (
           <Typography variant="body2" color="text.secondary">
-            <strong>Técnico:</strong> {order.tecnico}
+            <strong>Especialista Técnico:</strong> {order.tecnico}
           </Typography>
         )}
         {order.contatoResponsavel && (
