@@ -19,14 +19,6 @@ import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import * as XLSX from 'xlsx';
 
-const formatarData = (data) => {
-  const dataObj = new Date(data);
-  const dia = String(dataObj.getDate()).padStart(2, '0');
-  const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-  const ano = dataObj.getFullYear();
-  return `${dia}/${mes}/${ano}`;
-}
-
 const OrderCard = ({ order }) => {
   const handleOpenInMaps = () => {
     const address = encodeURIComponent(order.endereco);
@@ -82,12 +74,12 @@ const OrderCard = ({ order }) => {
         )}
         {order.migrationDate && (
           <Typography variant="body2" color="text.secondary">
-            <strong>Data de migração:</strong> {formatarData(order.migrationDate)}
+            <strong>Data de migração:</strong> {order.migrationDate}
           </Typography>
         )}
         {order.dataPrevistaAcao && (
           <Typography variant="body2" color="text.secondary">
-            <strong>Data prevista para atendimento:</strong> {formatarData(order.dataPrevistaAcao)}
+            <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
           </Typography>
         )}
         {order.observacoes && (
