@@ -106,6 +106,11 @@ const OrderCard = ({ order }) => {
             )}
           </>
         )}
+        {order.agenteResponsavel && ( // Alteração aqui
+          <Typography variant="body2" color="text.secondary"> {/* Alteração aqui */}
+            <strong>Agente Responsável:</strong> {order.agenteResponsavel} {/* Alteração aqui */}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );
@@ -151,6 +156,7 @@ const Orders = () => {
           ...data,
           dataMigracao: data.dataMigracao,
           dataPrevistaAcao: data.dataPrevistaAcao,
+          agenteResponsavel: data.agenteResponsavel, // Adicione esta linha
         };
       });
       setOrders(ordersData);
@@ -233,13 +239,15 @@ const Orders = () => {
   const displayedOrders = hideCompleted
     ? filteredOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status])
     : filteredOrders.filter(order => selectedStatus[order.status]);
-const exportToExcel = () => {
+
+  const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(displayedOrders);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     const fileName = "ordens_de_servico.xlsx";
     XLSX.writeFile(wb, fileName);
   };
+
   return (
     <Box
       display="flex"
