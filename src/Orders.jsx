@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import * as XLSX from 'xlsx';
 
 const formatarData = (data) => {
   const dataObj = new Date(data);
@@ -240,7 +241,13 @@ const Orders = () => {
   const displayedOrders = hideCompleted
     ? filteredOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status])
     : filteredOrders.filter(order => selectedStatus[order.status]);
-
+const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(displayedOrders);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Orders");
+    const fileName = "ordens_de_servico.xlsx";
+    XLSX.writeFile(wb, fileName);
+  };
   return (
     <Box
       display="flex"
@@ -331,6 +338,9 @@ const Orders = () => {
           ))}
         </Grid>
       </Container>
+      <Button variant="contained" color="primary" onClick={exportToExcel}>
+        Exportar para Excel
+      </Button>
     </Box>
   );
 };
