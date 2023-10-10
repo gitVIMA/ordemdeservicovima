@@ -281,21 +281,7 @@ const Orders = () => {
               Ordens de Serviço
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" size="small">
-              <InputLabel>Tipo de serviço</InputLabel>
-              <Select
-                value={filter}
-                onChange={handleChangeFilter}
-                label="Tipo de serviço"
-              >
-                <MenuItem value="">Todos</MenuItem>
-                <MenuItem value="Instalação">Instalação</MenuItem>
-                <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>
-                <MenuItem value="Contato ou mensagem">Contato ou mensagem</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
+          
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Ordenar Por</InputLabel>
