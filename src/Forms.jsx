@@ -32,6 +32,9 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
           <strong>Contato do Responsável:</strong> {order.contatoResponsavel}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+          <strong>Agente Responsável:</strong> {order.agenteResponsavel}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
           <strong>Tipo de serviço:</strong> {order.tipoServico}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -96,6 +99,7 @@ const Orders = () => {
     cliente: '', 
     tecnico: '', 
     contatoResponsavel: '', 
+    agenteResponsavel: '', 
     tipoServico: '', 
     numeroInstalacao: '', 
     endereco: '', 
@@ -126,6 +130,7 @@ const Orders = () => {
       cliente: newOrderData.cliente,
       tecnico: newOrderData.tecnico,
       contatoResponsavel: newOrderData.contatoResponsavel,
+      agenteResponsavel: newOrderData.agenteResponsavel,
       tipoServico: newOrderData.tipoServico,
       numeroInstalacao: newOrderData.numeroInstalacao,
       endereco: newOrderData.endereco,
@@ -147,6 +152,7 @@ const Orders = () => {
         cliente: '', 
         tecnico: '', 
         contatoResponsavel: '', 
+        agenteResponsavel: '', 
         tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
@@ -202,6 +208,7 @@ const Orders = () => {
         cliente: '', 
         tecnico: '', 
         contatoResponsavel: '', 
+        agenteResponsavel: '', 
         tipoServico: 'Instalação', 
         numeroInstalacao: '', 
         endereco: '', 
@@ -224,6 +231,7 @@ const Orders = () => {
       cliente: '', 
       tecnico: '', 
       contatoResponsavel: '', 
+      agenteResponsavel: '', 
       tipoServico: 'Instalação', 
       numeroInstalacao: '', 
       endereco: '', 
@@ -322,6 +330,17 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.contatoResponsavel}
               onChange={(e) => setNewOrderData({ ...newOrderData, contatoResponsavel: e.target.value })}
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Agente Responsável"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.agenteResponsavel}
+              onChange={(e) => setNewOrderData({ ...newOrderData, agenteResponsavel: e.target.value })}
             />
           </div>
           <div>
