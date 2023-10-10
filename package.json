@@ -14,11 +14,11 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@firebase/firestore": "9.0.0",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.11",
     "firebase": "^9.0.0",
-    "react-router-dom": "^6.16.0"
+    "react-router-dom": "^6.16.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
