@@ -106,9 +106,9 @@ const OrderCard = ({ order }) => {
             )}
           </>
         )}
-        {order.agenteResponsavel && ( // Alteração aqui
-          <Typography variant="body2" color="text.secondary"> {/* Alteração aqui */}
-            <strong>Agente Responsável:</strong> {order.agenteResponsavel} {/* Alteração aqui */}
+        {order.agenteResponsavel && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Agente Responsável:</strong> {order.agenteResponsavel}
           </Typography>
         )}
       </CardContent>
@@ -131,6 +131,12 @@ const Orders = () => {
     EmProgresso: true,
     Concluída: true,
     Cancelada: true,
+   
+  });
+  const [selectedFilters, setSelectedFilters] = useState({
+    Instalação: true,
+    "Manutenção e reparo": true,
+    "Contato ou mensagem": true,
   });
   const filteredOrdersRef = useRef([]);
 
@@ -156,7 +162,7 @@ const Orders = () => {
           ...data,
           dataMigracao: data.dataMigracao,
           dataPrevistaAcao: data.dataPrevistaAcao,
-          agenteResponsavel: data.agenteResponsavel, // Adicione esta linha
+          agenteResponsavel: data.agenteResponsavel,
         };
       });
       setOrders(ordersData);
@@ -221,6 +227,13 @@ const Orders = () => {
     }));
   };
 
+  const handleFilterChange = (filter) => {
+    setSelectedFilters(prevFilters => ({
+      ...prevFilters,
+      [filter]: !prevFilters[filter],
+    }));
+  };
+
   const sortedOrders = [...orders].sort((a, b) => {
     const fieldA = a[sortBy] || '';
     const fieldB = b[sortBy] || '';
@@ -237,8 +250,8 @@ const Orders = () => {
     : sortedOrders;
 
   const displayedOrders = hideCompleted
-    ? filteredOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status])
-    : filteredOrders.filter(order => selectedStatus[order.status]);
+    ? filteredOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status] && selectedFilters[order.tipoServico])
+    : filteredOrders.filter(order => selectedStatus[order.status] && selectedFilters[order.tipoServico]);
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(displayedOrders);
@@ -317,6 +330,19 @@ const Orders = () => {
                     key={status}
                     control={<Checkbox checked={selectedStatus[status]} onChange={handleStatusChange} name={status} />}
                     label={status}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth size="small">
+              <FormGroup>
+                {Object.keys(selectedFilters).map(filter => (
+                  <FormControlLabel
+                    key={filter}
+                    control={<Checkbox checked={selectedFilters[filter]} onChange={() => handleFilterChange(filter)} name={filter} />}
+                    label={filter}
                   />
                 ))}
               </FormGroup>
