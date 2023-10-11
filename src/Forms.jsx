@@ -366,7 +366,7 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.numeroInstalacao}
               onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
-              required
+              //required
             />
           </div>
           <div>
