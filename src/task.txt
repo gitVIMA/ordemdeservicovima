@@ -1,3 +1,4 @@
-Criar campo de pesquisa OK
-Legenda de cores nas caixas de filtro
-Criar ordem de atendimento
+Legenda de cores nas caixas de filtro;
+Criar ordem de atendimento;
+Adicionar data e hora da última comunicação;
+Criar prioridade de atendimentos;
