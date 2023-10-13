@@ -2,4 +2,4 @@ Legenda de cores nas caixas de filtro;
 Criar ordem de atendimento;
 Adicionar data e hora da última comunicação;
 Criar prioridade de atendimentos;
-Mostrar data e dia da semana nas Ordens de serviço;
+Mostrar data e dia da semana nas Ordens de serviço; será preciso adicionar as datas com fuso no banco antes
