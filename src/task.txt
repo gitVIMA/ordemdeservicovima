@@ -5,3 +5,4 @@ Criar prioridade de atendimentos;
 Mostrar data e dia da semana nas Ordens de serviço; será preciso adicionar as datas com fuso no banco antes
 Criar folowup
 Adicionar número do equipamento VIMAXXXX
+Exportar dados tabelados e com logo marca
