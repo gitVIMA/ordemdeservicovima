@@ -27,9 +27,10 @@ const OrderCard = ({ order }) => {
 
   const statusColors = {
     Pendente: '#ffd700',
-    EmProgresso: '#ff8c00',
+    EmProgresso: '#ffffff',
     Concluída: '#d9f7d9',
-    Cancelada: '#ff4500'
+    Cancelada: '#808080',
+    EmAberto: '#ff4500'
   };
 
   const cardColor = statusColors[order.status] || 'inherit';
