@@ -457,7 +457,7 @@ const Orders = () => {
                 <MenuItem value="EmProgresso">Em Progresso</MenuItem>
                 <MenuItem value="Concluída">Concluída</MenuItem>
                 <MenuItem value="Cancelada">Cancelada</MenuItem>
-                <MenuItem value="EmAguardo">Em Aguardo</MenuItem>
+                <MenuItem value="EmAberto">Em Aberto</MenuItem>
               </Select>
             </FormControl>
           </div>

@@ -131,6 +131,7 @@ const Orders = () => {
     EmProgresso: true,
     Concluída: false,
     Cancelada: false,
+    EmAberto: true,
    
   });
   const [selectedFilters, setSelectedFilters] = useState({
