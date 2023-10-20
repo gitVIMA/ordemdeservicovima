@@ -30,6 +30,7 @@ const OrderCard = ({ order }) => {
     EmProgresso: '#ffffff',
     EmAberto: '#ff4500',
     Concluída: '#d9f7d9',
+    Retorno: '#87ceeb',
     Cancelada: '#808080'
     
   };
@@ -132,6 +133,7 @@ const Orders = () => {
     Pendente: true,
     EmProgresso: true,
     EmAberto: true,
+    Retorno: true,
     Concluída: false,
     Cancelada: false,
     

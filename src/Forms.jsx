@@ -456,6 +456,7 @@ const Orders = () => {
                 <MenuItem value="Pendente">Pendente</MenuItem>
                 <MenuItem value="EmProgresso">Em Progresso</MenuItem>
                 <MenuItem value="Concluída">Concluída</MenuItem>
+                <MenuItem value="Retorno">Retorno</MenuItem>
                 <MenuItem value="Cancelada">Cancelada</MenuItem>
                 <MenuItem value="EmAberto">Em Aberto</MenuItem>
               </Select>
