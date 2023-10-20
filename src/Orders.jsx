@@ -28,9 +28,10 @@ const OrderCard = ({ order }) => {
   const statusColors = {
     Pendente: '#ffd700',
     EmProgresso: '#ffffff',
+    EmAberto: '#ff4500',
     Concluída: '#d9f7d9',
-    Cancelada: '#808080',
-    EmAberto: '#ff4500'
+    Cancelada: '#808080'
+    
   };
 
   const cardColor = statusColors[order.status] || 'inherit';
@@ -130,9 +131,10 @@ const Orders = () => {
   const [selectedStatus, setSelectedStatus] = useState({
     Pendente: true,
     EmProgresso: true,
+    EmAberto: true,
     Concluída: false,
     Cancelada: false,
-    EmAberto: true,
+    
    
   });
   const [selectedFilters, setSelectedFilters] = useState({
