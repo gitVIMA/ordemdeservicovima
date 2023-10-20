@@ -428,7 +428,7 @@ const Orders = () => {
                 sx={{ marginBottom: '0.5rem' }}
                 value={newOrderData.migrationDate}
                 onChange={(e) => setNewOrderData({ ...newOrderData, migrationDate: e.target.value })}
-                required 
+                //required 
                 type="date"
               />
             </div>
@@ -442,7 +442,7 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.dataPrevistaAcao}
               onChange={(e) => setNewOrderData({ ...newOrderData, dataPrevistaAcao: e.target.value })}
-              required 
+              //required 
               type="date"
             />
           </div>
