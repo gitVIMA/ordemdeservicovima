@@ -17,8 +17,11 @@ import {
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import * as XLSX from 'xlsx';
+//import * as XLSX from 'xlsx';
 import TextField from '@mui/material/TextField';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 const OrderCard = ({ order }) => {
@@ -415,26 +418,32 @@ const Orders = () => {
             />
           ))}
         </FormGroup>
-        <TextField
-          label="Pesquisar por Cliente"
-          variant="outlined"
-          fullWidth
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ my: 2 }}
-        />
-        <Grid container spacing={2}>
-          {orders.map((order) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={order.id}>
-              <OrderCard order={order} />
-              <Button onClick={() => handleEdit(order.id)}>Editar</Button>
-              <Button onClick={() => handleDelete(order.id)}>Excluir</Button>
-            </Grid>
-          ))}
-        </Grid>
+<TextField
+  label="Pesquisar por Cliente"
+  variant="outlined"
+  fullWidth
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  sx={{ my: 2 }}
+/>
+<Grid container spacing={2}>
+  {orders.map((order) => (
+    <Grid item xs={12} sm={6} md={4} lg={3} key={order.id}>
+      <OrderCard order={order} />
+      <Box display="flex" justifyContent="space-between" mt={1}>
+        <Button variant="contained" color="primary" onClick={() => handleEdit(order.id)}>
+          Editar
+        </Button>
+        <Button onClick={() => handleDelete(order.id)}>
+          Excluir
+        </Button>
       </Box>
-    </Container>
-  );
+    </Grid>
+  ))}
+</Grid>
+</Box>
+</Container>
+);
 };
 
 export default Orders;
