@@ -6,8 +6,10 @@ import {
   Outlet,
 } from 'react-router-dom';
 import Login from './Login';
-import Orders from './Orders'; // Mantenha o componente Orders como está
-import Forms from './Forms'; // Renomeie o componente para Forms
+import Orders from './Orders';
+import Forms from './Forms';
+import Forms2 from './Forms2';
+
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
           <Route index element={<Login />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/forms" element={<Forms />} /> {/* Use o componente Forms aqui */}
+          <Route path="/forms2" element={<Forms2 />} />
+
         </Route>
       </Routes>
     </Router>
