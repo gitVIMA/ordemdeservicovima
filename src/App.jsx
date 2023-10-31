@@ -9,6 +9,7 @@ import Login from './Login';
 import Orders from './Orders';
 import Forms from './Forms';
 import Forms2 from './Forms2';
+import Forms3 from './Forms3';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/orders" element={<Orders />} />
           <Route path="/forms" element={<Forms />} /> {/* Use o componente Forms aqui */}
           <Route path="/forms2" element={<Forms2 />} />
+          <Route path="/forms3" element={<Forms3 />} />
 
         </Route>
       </Routes>
