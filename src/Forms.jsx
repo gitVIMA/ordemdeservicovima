@@ -41,6 +41,9 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
           <strong>Número de instalação:</strong> {order.numeroInstalacao}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+          <strong>Número do Equipamento:</strong> {order.numeroEquipamento}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
           <strong>Endereço:</strong> {order.endereco}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -102,6 +105,7 @@ const Orders = () => {
     agenteResponsavel: '', 
     tipoServico: '', 
     numeroInstalacao: '', 
+    numeroEquipamento: '',
     endereco: '', 
     status: 'Pendente', 
     migrationDate: '', 
@@ -133,6 +137,7 @@ const Orders = () => {
       agenteResponsavel: newOrderData.agenteResponsavel,
       tipoServico: newOrderData.tipoServico,
       numeroInstalacao: newOrderData.numeroInstalacao,
+      numeroEquipamento: newOrderData.numeroEquipamento,
       endereco: newOrderData.endereco,
       status: newOrderData.status,
       migrationDate: newOrderData.migrationDate, 
@@ -366,6 +371,18 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.numeroInstalacao}
               onChange={(e) => setNewOrderData({ ...newOrderData, numeroInstalacao: e.target.value })}
+              //required
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Número do equipamento"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.numeroEquipamento || ''}
+              onChange={(e) => setNewOrderData({ ...newOrderData, numeroEquipamento: e.target.value })}
               //required
             />
           </div>

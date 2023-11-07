@@ -65,6 +65,11 @@ const OrderCard = ({ order }) => {
             <strong>Número de instalação:</strong> {order.numeroInstalacao}
           </Typography>
         )}
+        {order.numeroEquipamento && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Número do equipamento:</strong> {order.numeroEquipamento}
+          </Typography>
+        )}
         {order.endereco && (
           <Typography variant="body2" color="text.secondary">
             <strong>Endereço:</strong> <a href="#" onClick={handleOpenInMaps}>{order.endereco}</a>
