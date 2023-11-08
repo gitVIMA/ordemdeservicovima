@@ -18,7 +18,7 @@ import {
 import { db } from './firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
-const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
+const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {//dados retornados do banco firebase
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem' }}>
       <CardContent>
@@ -45,6 +45,9 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Endereço:</strong> {order.endereco}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Coordenadas:</strong> {order.coordenadas}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Status:</strong> {order.status}
@@ -395,6 +398,18 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.endereco}
               onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Coordenadas"
+              size="small"
+              sx={{ marginBottom: '0.5rem' }}
+              value={newOrderData.coordenadas || ''}
+              onChange={(e) => setNewOrderData({ ...newOrderData, coordenadas: e.target.value })}
               required
             />
           </div>
