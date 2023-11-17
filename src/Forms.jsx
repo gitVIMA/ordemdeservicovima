@@ -410,7 +410,7 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.coordenadas || ''}
               onChange={(e) => setNewOrderData({ ...newOrderData, coordenadas: e.target.value })}
-              required
+              //required
             />
           </div>
           {newOrderData.tipoServico === 'Instalação' && (
