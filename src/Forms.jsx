@@ -89,7 +89,7 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         
         {order.numeroOrdem && (
           <Typography paragraph>
-            <strong>Número da Ordem de Serviço:</strong> {order.numeroOrdem }
+            <strong>ID Ordem de Serviço:</strong> {order.numeroOrdem }
         </Typography>
             )}
             

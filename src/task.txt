@@ -6,3 +6,4 @@ Mostrar data e dia da semana nas Ordens de serviço; será preciso adicionar as 
 Criar folowup
 Adicionar número do equipamento VIMAXXXX
 Exportar dados tabelados e com logo marca
+Listar clientes (google planilhas, txt ou etc...)
