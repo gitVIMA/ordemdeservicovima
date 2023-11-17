@@ -95,6 +95,12 @@ const OrderCard = ({ order }) => {
             <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
           </Typography>
         )}
+        {order.formularioEmCampoPreenchido && (
+          <Typography variant="body2" color="text.secondary">
+            <strong>Formulário em campo preenchido?</strong> {order.formularioEmCampoPreenchido}
+          </Typography>
+        )}
+        
         {order.observacoes && (
           <Typography variant="body2" color="text.secondary">
             <strong>Observações:</strong> {order.observacoes}

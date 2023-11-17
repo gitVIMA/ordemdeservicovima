@@ -60,6 +60,14 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
         <Typography variant="body2" color="text.secondary">
           <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
         </Typography>
+        
+        {order.formularioEmCampoPreenchido && (
+          <Typography paragraph>
+            <strong>Formulário em campo preenchido?</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
+          </Typography>
+        )}
+
+        
         {order.observacoes && (
           <Typography variant="body2" color="text.secondary">
             <strong>Observações:</strong> {order.observacoes}
@@ -113,6 +121,7 @@ const Orders = () => {
     status: 'Pendente', 
     migrationDate: '', 
     dataPrevistaAcao: '', 
+    formularioEmCampoPreenchido: 'NÃO', 
     observacoes: '',
     ip: '172.25.35.',
     mascara: '255.255.255.0',
@@ -146,6 +155,7 @@ const Orders = () => {
       migrationDate: newOrderData.migrationDate, 
       dataPrevistaAcao: newOrderData.dataPrevistaAcao, 
       observacoes: newOrderData.observacoes,
+      formularioEmCampoPreenchido: newOrderData.formularioEmCampoPreenchido,
       ip: newOrderData.ip,
       mascara: newOrderData.mascara,
       gateway: newOrderData.gateway,
@@ -168,6 +178,7 @@ const Orders = () => {
         migrationDate: '', 
         dataPrevistaAcao: '', 
         observacoes: '',
+        formularioEmCampoPreenchido: '',
         ip: '',
         mascara: '',
         gateway: '',
@@ -224,6 +235,7 @@ const Orders = () => {
         migrationDate: '', 
         dataPrevistaAcao: '', 
         observacoes: '',
+        formularioEmCampoPreenchido: '',
         ip: '',
         mascara: '',
         gateway: '',
@@ -247,6 +259,7 @@ const Orders = () => {
       migrationDate: '', 
       dataPrevistaAcao: '', 
       observacoes: '',
+      formularioEmCampoPreenchido: '',
       ip: '',
       mascara: '',
       gateway: '',
@@ -494,6 +507,21 @@ const Orders = () => {
               </Select>
             </FormControl>
           </div>
+          <div>
+            <FormControl fullWidth variant="outlined" size="small" sx={{ marginBottom: '0.5rem' }}>
+              <InputLabel>Formulário em campo preenchido?</InputLabel>
+              <Select
+                value={newOrderData.formularioEmCampoPreenchido}
+                onChange={(e) => setNewOrderData({ ...newOrderData, formularioEmCampoPreenchido: e.target.value })}
+                label="Formulário em campo preenchido?"
+              >
+                <MenuItem value="SIM">SIM</MenuItem>
+                <MenuItem value="NÃO">NÃO</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+
           <div>
             <TextField
               fullWidth
