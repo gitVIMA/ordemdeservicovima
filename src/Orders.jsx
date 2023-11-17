@@ -95,13 +95,19 @@ const OrderCard = ({ order }) => {
             <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
           </Typography>
         )}
-        {order.formularioEmCampoPreenchido && (
-          <Typography variant="body2" color="text.secondary">
-            <strong>Formulário em campo preenchido?</strong> {order.formularioEmCampoPreenchido}
-          </Typography>
-        )}
-        
-        {order.observacoes && (
+      {order.formularioEmCampoPreenchido && (
+        <Typography paragraph>
+          <strong>Formulário em campo preenchido?</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
+        </Typography>
+      )}
+
+      {order.numeroOrdem && (
+        <Typography paragraph>
+          <strong>Número da Ordem de Serviço:</strong> {order.numeroOrdem }
+      </Typography>
+          )}
+
+      {order.observacoes && (
           <Typography variant="body2" color="text.secondary">
             <strong>Observações:</strong> {order.observacoes}
           </Typography>

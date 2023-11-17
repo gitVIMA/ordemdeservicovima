@@ -18,6 +18,26 @@ import {
 import { db } from './firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
+// ID aleatório para O.S
+
+// Função para gerar um caractere aleatório entre 0-9 e A-Z
+const generateRandomChar = () => {
+  const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const randomIndex = Math.floor(Math.random() * characters.length);
+  return characters.charAt(randomIndex);
+};
+
+// Função para gerar uma string de 16 caracteres única
+const generateUniqueID = () => {
+  let uniqueID = '';
+  for (let i = 0; i < 16; i++) {
+    uniqueID += generateRandomChar();
+  }
+  return uniqueID;
+};
+
+
+
 const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {//dados retornados do banco firebase
   return (
     <Card variant="outlined" sx={{ marginBottom: '1rem' }}>
@@ -66,8 +86,13 @@ const OrderCard = ({ order, handleStatusChange, handleEdit, handleDelete }) => {
             <strong>Formulário em campo preenchido?</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
           </Typography>
         )}
-
         
+        {order.numeroOrdem && (
+          <Typography paragraph>
+            <strong>Número da Ordem de Serviço:</strong> {order.numeroOrdem }
+        </Typography>
+            )}
+            
         {order.observacoes && (
           <Typography variant="body2" color="text.secondary">
             <strong>Observações:</strong> {order.observacoes}
@@ -143,6 +168,7 @@ const Orders = () => {
 
   const addOrder = async () => {
     const newOrder = {
+      numeroOrdem: generateUniqueID(),
       cliente: newOrderData.cliente,
       tecnico: newOrderData.tecnico,
       contatoResponsavel: newOrderData.contatoResponsavel,
@@ -167,6 +193,7 @@ const Orders = () => {
 
       setOrders([...orders, { id: docRef.id, ...newOrder }]);
       setNewOrderData({ 
+        numeroOrdem: '',
         cliente: '', 
         tecnico: '', 
         contatoResponsavel: '', 
