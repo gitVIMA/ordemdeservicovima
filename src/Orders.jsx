@@ -19,6 +19,7 @@ import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import * as XLSX from 'xlsx';
 
+
 const OrderCard = ({ order }) => {
   const handleOpenInMaps = () => {
     const address = encodeURIComponent(order.endereco);
@@ -32,7 +33,6 @@ const OrderCard = ({ order }) => {
     Concluída: '#d9f7d9',
     Retorno: '#87ceeb',
     Cancelada: '#808080'
-    
   };
 
   const cardColor = statusColors[order.status] || 'inherit';
@@ -290,8 +290,8 @@ const Orders = () => {
     : filteredOrders;
 
   const displayedOrders = hideCompleted
-    ? searchedOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status] && selectedFilters[order.tipoServico])
-    : searchedOrders.filter(order => selectedStatus[order.status] && selectedFilters[order.tipoServico]);
+  ? searchedOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status] && selectedFilters[order.tipoServico])
+  : searchedOrders.filter(order => selectedStatus[order.status] && selectedFilters[order.tipoServico]);
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(displayedOrders);
@@ -300,7 +300,6 @@ const Orders = () => {
     const fileName = "ordens_de_servico.xlsx";
     XLSX.writeFile(wb, fileName);
   };
-
   return (
     <Box
       display="flex"
@@ -308,9 +307,11 @@ const Orders = () => {
       alignItems="center"
       mt="5rem"
       px={2}
+      py={4}  // Adicionando preenchimento na parte superior e inferior para criar um espaço entre o conteúdo e o fundo
+      style={{ background: 'rgba(32,178,170, 0.1)' }}  // Cor de fundo suave com transparência
       fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
     >
-      <Box display="flex" alignItems="center" mb={2}>
+            <Box display="flex" alignItems="center" mb={2}>
         <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '80px', marginRight: '20px' }} />
         <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '60px' }} />
       </Box>
@@ -397,13 +398,13 @@ const Orders = () => {
               />
             </Grid>
           ))}
-        </Grid>
-      </Container>
-      <Button variant="contained" color="primary" onClick={exportToExcel}>
-        Exportar para Excel
-      </Button>
-    </Box>
-  );
-};
+                </Grid>
+              </Container>
+              <Button variant="contained" color="primary" onClick={exportToExcel}>
+                Exportar para Excel
+              </Button>
+            </Box>
+          );
+        };
 
-export default Orders;
+        export default Orders;
