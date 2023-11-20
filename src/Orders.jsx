@@ -305,24 +305,26 @@ const Orders = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      mt="5rem"
+      mt="3rem"
       px={2}
-      py={4}  // Adicionando preenchimento na parte superior e inferior para criar um espaço entre o conteúdo e o fundo
+      py={2}  // Adicionando preenchimento na parte superior e inferior para criar um espaço entre o conteúdo e o fundo
       style={{ background: 'rgba(32,178,170, 0.1)' }}  // Cor de fundo suave com transparência
       fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
     >
-            <Box display="flex" alignItems="center" mb={2}>
-        <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '80px', marginRight: '20px' }} />
-        <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '60px' }} />
+      <Box display="flex" alignItems="center" mb={2}>
+        <img src="src/assets/logo-vima.png" alt="Logo Vima" style={{ height: '60px', marginRight: '20px' }} />
+        <img src="src/assets/logo-cemig.png" alt="Logo Cemig" style={{ height: '40px' }} />
       </Box>
+
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom align="center" color="primary">
+            <Typography variant="h5" gutterBottom align="center" color="primary">
               Ordens de Serviço
             </Typography>
           </Grid>
-          
+
+          {/*
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Ordenar Por</InputLabel>
@@ -336,6 +338,9 @@ const Orders = () => {
               </Select>
             </FormControl>
           </Grid>
+          */}
+
+          {/*
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Direção da Ordenação</InputLabel>
@@ -349,6 +354,8 @@ const Orders = () => {
               </Select>
             </FormControl>
           </Grid>
+          */}
+          
           <Grid item xs={12}>
             <FormControl fullWidth size="small">
               <FormGroup>
