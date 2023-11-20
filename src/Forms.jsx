@@ -20,9 +20,9 @@ import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase
 
 // ID aleatório para O.S
 
-// Função para gerar um caractere aleatório entre 0-9 e A-Z
+// Função para gerar um caractere aleatório entre 0-9 , A-Z e Az
 const generateRandomChar = () => {
-  const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   const randomIndex = Math.floor(Math.random() * characters.length);
   return characters.charAt(randomIndex);
 };

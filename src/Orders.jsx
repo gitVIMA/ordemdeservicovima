@@ -158,8 +158,8 @@ const Orders = () => {
     Retorno: true,
     Concluída: false,
     Cancelada: false,
-    
-   
+
+
   });
   const [selectedFilters, setSelectedFilters] = useState({
     Instalação: true,
@@ -355,7 +355,34 @@ const Orders = () => {
             </FormControl>
           </Grid>
           */}
-          
+          <Grid item xs={12}>
+            <FormControl fullWidth size="small" component="fieldset">
+              <FormGroup row>
+                {Object.keys(selectedStatus).map(status => (
+                  <FormControlLabel
+                    key={status}
+                    control={<Checkbox checked={selectedStatus[status]} onChange={handleStatusChange} name={status} size="small" />}
+                    label={status}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth size="small" component="fieldset">
+              <FormGroup row>
+                {Object.keys(selectedFilters).map(filter => (
+                  <FormControlLabel
+                    key={filter}
+                    control={<Checkbox checked={selectedFilters[filter]} onChange={() => handleFilterChange(filter)} name={filter} size="small" />}
+                    label={filter}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+          </Grid>
+
+          {/*
           <Grid item xs={12}>
             <FormControl fullWidth size="small">
               <FormGroup>
@@ -382,6 +409,8 @@ const Orders = () => {
               </FormGroup>
             </FormControl>
           </Grid>
+          */}
+
           <Grid item xs={12}>
             {Object.keys(displayedStatusCounts).map(status => (
               <Typography key={status} variant="body2" color="text.secondary">
