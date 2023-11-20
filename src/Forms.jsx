@@ -31,10 +31,19 @@ const generateRandomChar = () => {
 const generateUniqueID = () => {
   let uniqueID = '';
   for (let i = 0; i < 16; i++) {
-    uniqueID += generateRandomChar();
+ uniqueID += generateRandomChar();
+    // Adicione um traço após cada bloco de 4 caracteres
+    if ((i + 1) % 4 === 0 && i !== 15) {
+      uniqueID += '-';
+    }
   }
   return uniqueID;
 };
+
+// Exemplo de uso
+const randomID = generateUniqueID();
+console.log(randomID);
+
 
 
 
