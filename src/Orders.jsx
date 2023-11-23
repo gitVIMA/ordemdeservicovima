@@ -18,6 +18,8 @@ import {
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import * as XLSX from 'xlsx';
+import logoVima from '/src/assets/logo-vima.png';
+import logoCemig from '/src/assets/logo-cemig.png';
 
 
 const OrderCard = ({ order }) => {
@@ -136,6 +138,10 @@ const OrderCard = ({ order }) => {
             <strong>Agente Responsável:</strong> {order.agenteResponsavel}
           </Typography>
         )}
+ <Box display="flex" justifyContent="space-between" alignItems="center">
+          <img src={logoVima} alt="Logo Vima" style={{ height: '30px', marginRight: '10px' }} />
+          <img src={logoCemig} alt="Logo Cemig" style={{ height: '20px' }} />
+        </Box>
       </CardContent>
     </Card>
   );
