@@ -1,52 +1,43 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Container,
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  FormGroup,
-  FormControlLabel,
-  Checkbox
-} from '@mui/material';
-import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import * as XLSX from 'xlsx';
-import logoVima from '/src/assets/logo-vima.png';
-import logoCemig from '/src/assets/logo-cemig.png';
+        import React, { useState, useEffect, useRef } from 'react';
+        import {Container, Typography, Box, Card, CardContent, Grid, FormControl, InputLabel, Select, MenuItem, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+        import { db } from './firebase';
+        import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+        import * as XLSX from 'xlsx';
+        import VimaLogo from '/src/assets/logo-vima.png';
+        import CemigLogo from '/src/assets/logo-cemig.png';
 
+        const OrderCard = ({ order, onEditFormulario }) => {
+          const handleOpenInMaps = () => {
+            const address = encodeURIComponent(order.endereco);
+            window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
+          };
 
-const OrderCard = ({ order }) => {
-  const handleOpenInMaps = () => {
-    const address = encodeURIComponent(order.endereco);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
-  };
+          const statusColors = {
+            Pendente: '#ffd700',
+            EmProgresso: '#ffffff',
+            EmAberto: '#ff4500',
+            Concluída: '#d9f7d9',
+            Retorno: '#87ceeb',
+            Cancelada: '#808080'
+          };
 
-  const statusColors = {
-    Pendente: '#ffd700',
-    EmProgresso: '#ffffff',
-    EmAberto: '#ff4500',
-    Concluída: '#d9f7d9',
-    Retorno: '#87ceeb',
-    Cancelada: '#808080'
-  };
+          const cardColor = statusColors[order.status] || 'inherit';
+          const confirmChangeStatus = () => {
+            const isConfirmed = window.confirm("Tem certeza de que deseja alterar o status do formulário em campo preenchido?");
+            if (isConfirmed) {
+              // Se confirmado, chame a função para editar o formulário
+              onEditFormulario(order.id, order.formularioEmCampoPreenchido);
+            }
+          };
 
-  const cardColor = statusColors[order.status] || 'inherit';
-
-  return (
-    <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: cardColor }}>
-      <CardContent>
-        {order.cliente && (
-          <Typography variant="body2" color="text.secondary">
-            <strong>Cliente:</strong> {order.cliente}
-          </Typography>
-        )}
+          return (
+            <Card variant="outlined" sx={{ marginBottom: '1rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', backgroundColor: cardColor }}>
+              <CardContent>
+                {order.cliente && (
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Cliente:</strong> {order.cliente}
+                  </Typography>
+                )}
         {order.tecnico && (
           <Typography variant="body2" color="text.secondary">
             <strong>Especialista Técnico:</strong> {order.tecnico}
@@ -97,11 +88,15 @@ const OrderCard = ({ order }) => {
             <strong>Data prevista para atendimento:</strong> {order.dataPrevistaAcao}
           </Typography>
         )}
-      {order.formularioEmCampoPreenchido && (
-        <Typography paragraph>
-          <strong>Formulário em campo preenchido?</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
-        </Typography>
-      )}
+                {order.formularioEmCampoPreenchido !== undefined && (
+                  <Typography paragraph>
+                    <strong>Formulário em campo preenchido:</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
+                    <Button color="primary" onClick={confirmChangeStatus}>
+                      ALTERAR
+                    </Button>
+                  </Typography>
+                )}
+
 
       {order.numeroOrdem && (
         <Typography paragraph>
@@ -139,15 +134,38 @@ const OrderCard = ({ order }) => {
           </Typography>
         )}
  <Box display="flex" justifyContent="space-between" alignItems="center">
-          <img src={logoVima} alt="Logo Vima" style={{ height: '30px', marginRight: '10px' }} />
-          <img src={logoCemig} alt="Logo Cemig" style={{ height: '20px' }} />
+          <img src={VimaLogo} alt="Logo Vima" style={{ height: '30px', marginRight: '10px' }} />
+          <img src={CemigLogo} alt="Logo Cemig" style={{ height: '20px' }} />
         </Box>
       </CardContent>
     </Card>
   );
 };
 
+
 const Orders = () => {
+  const handleEditFormulario = async (orderId, formularioEmCampoPreenchido) => {
+    // Encontre a ordem no estado e atualize o valor para 'SIM' localmente
+    const updatedOrders = orders.map(order => {
+      if (order.id === orderId) {
+        return {
+          ...order,
+          formularioEmCampoPreenchido: 'SIM',
+        };
+      }
+      return order;
+    });
+
+    // Atualize o estado com as ordens atualizadas localmente
+    setOrders(updatedOrders);
+
+    // Agora, atualize os dados no Firestore
+    const orderRef = doc(db, 'orders', orderId);
+    await updateDoc(orderRef, { formularioEmCampoPreenchido: 'SIM' });
+  };
+
+  
+  
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('dataPrevistaAcao');
@@ -437,6 +455,7 @@ const Orders = () => {
             <Grid item xs={12} sm={6} md={4} key={order.id}>
               <OrderCard
                 order={order}
+                onEditFormulario={handleEditFormulario}
               />
             </Grid>
           ))}
