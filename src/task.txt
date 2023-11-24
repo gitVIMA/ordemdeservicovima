@@ -7,3 +7,4 @@ Criar folowup
 Adicionar número do equipamento VIMAXXXX
 Exportar dados tabelados e com logo marca
 Listar clientes (google planilhas, txt ou etc...)
+otimizar leitura no firebase
