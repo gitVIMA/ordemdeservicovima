@@ -426,8 +426,11 @@ const Orders = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth size="small" component="fieldset">
-              <FormGroup row>
+                <FormControl fullWidth size="small" component="fieldset">
+                  <Typography variant="body2" color="text.secondary">
+                    Exibir ORDENS com "Formulário em campo preenchido"
+                  </Typography>
+                  <FormGroup row>
                 {Object.keys(selectedFormulario).map(formulario => (
                   <FormControlLabel
                     key={formulario}
