@@ -158,7 +158,7 @@ const Orders = () => {
   const [statusCounts, setStatusCounts] = useState({});
   const [displayedStatusCounts, setDisplayedStatusCounts] = useState({});
   const [selectedStatus, setSelectedStatus] = useState({
-    Pendente: true,
+    Pendente: false,
     EmProgresso: true,
     EmAberto: true,
     Retorno: true,
