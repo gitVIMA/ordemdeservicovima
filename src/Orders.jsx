@@ -175,41 +175,46 @@ const Orders = () => {
   const [displayedOrderCount, setDisplayedOrderCount] = useState(0);
   const [statusCounts, setStatusCounts] = useState({});
   const [displayedStatusCounts, setDisplayedStatusCounts] = useState({});
-  const [selectedStatus, setSelectedStatus] = useState({
-    Pendente: false,
-    EmProgresso: true,
-    EmAberto: true,
-    Retorno: true,
-    Concluída: false,
-    Cancelada: false,
+  const [selectedStatus, setSelectedStatus] = useState({Pendente: false, EmProgresso: true, EmAberto: true, Retorno: true, Concluída: false, Cancelada: false,});
+  const [selectedFilters, setSelectedFilters] = useState({Instalação: true, "Manutenção e reparo": true, "Contato ou mensagem": true,});
+  const [selectedFormulario, setSelectedFormulario] = useState({ SIM: false, NÃO: true });
 
 
-  });
-  const [selectedFilters, setSelectedFilters] = useState({
-    Instalação: true,
-    "Manutenção e reparo": true,
-    "Contato ou mensagem": true,
-  });
   const filteredOrdersRef = useRef([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   const filterOrders = (orders, searchTerm) => {
     return orders.filter(order => {
       const values = Object.values(order).join(' ').toLowerCase();
-      return values.includes(searchTerm.toLowerCase());
+      const includesSearchTerm = values.includes(searchTerm.toLowerCase());
+      const includesFormularioFilter = selectedFormulario[order.formularioEmCampoPreenchido];
+      const includesStatusFilter = selectedStatus[order.status];
+
+      console.log('Order:', order);
+      console.log('Selected Formulario:', selectedFormulario);
+      console.log('Includes Formulario Filter:', includesFormularioFilter);
+
+      return includesSearchTerm && includesFormularioFilter && includesStatusFilter;
     });
   };
+
+
 
   const countStatus = (filteredOrders) => {
     const counts = {};
 
     filteredOrders.forEach(order => {
       const status = order.status;
+      const formulario = order.formularioEmCampoPreenchido;
       counts[status] = (counts[status] || 0) + 1;
+
+      // Adicione a contagem para o formulário
+      counts[`Formulário ${formulario}`] = (counts[`Formulário ${formulario}`] || 0) + 1;
     });
 
     return counts;
   };
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -287,12 +292,14 @@ const Orders = () => {
     }));
   };
 
-  const handleFilterChange = (filter) => {
-    setSelectedFilters(prevFilters => ({
-      ...prevFilters,
-      [filter]: !prevFilters[filter],
+  const handleFilterChange = (formulario) => {
+    setSelectedFormulario((prevFormulario) => ({
+      ...prevFormulario,
+      [formulario]: !prevFormulario[formulario],
     }));
   };
+
+  
 
   const sortedOrders = [...orders].sort((a, b) => {
     const fieldA = a[sortBy] || '';
@@ -314,8 +321,20 @@ const Orders = () => {
     : filteredOrders;
 
   const displayedOrders = hideCompleted
-  ? searchedOrders.filter(order => order.status !== 'Concluída' && selectedStatus[order.status] && selectedFilters[order.tipoServico])
-  : searchedOrders.filter(order => selectedStatus[order.status] && selectedFilters[order.tipoServico]);
+  ? searchedOrders.filter(
+      (order) =>
+        order.status !== 'Concluída' &&
+        selectedStatus[order.status] &&
+        selectedFilters[order.tipoServico] &&
+        selectedFormulario[order.formularioEmCampoPreenchido]
+    )
+  : searchedOrders.filter(
+      (order) =>
+        selectedStatus[order.status] &&
+        selectedFilters[order.tipoServico] &&
+        selectedFormulario[order.formularioEmCampoPreenchido]
+    );
+
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(displayedOrders);
@@ -379,6 +398,7 @@ const Orders = () => {
             </FormControl>
           </Grid>
           */}
+          
           <Grid item xs={12}>
             <FormControl fullWidth size="small" component="fieldset">
               <FormGroup row>
@@ -405,6 +425,21 @@ const Orders = () => {
               </FormGroup>
             </FormControl>
           </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth size="small" component="fieldset">
+              <FormGroup row>
+                {Object.keys(selectedFormulario).map(formulario => (
+                  <FormControlLabel
+                    key={formulario}
+                    control={<Checkbox checked={selectedFormulario[formulario]} onChange={() => handleFilterChange(formulario)} name={formulario} size="small" />}
+                    label={formulario}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+          </Grid>
+
+
 
           {/*
           <Grid item xs={12}>
