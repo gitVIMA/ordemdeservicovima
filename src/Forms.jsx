@@ -407,6 +407,7 @@ const Orders = () => {
                 value={newOrderData.tipoServico}
                 onChange={(e) => setNewOrderData({ ...newOrderData, tipoServico: e.target.value })}
                 label="Tipo de serviço"
+                required
               >
                 <MenuItem value="Instalação">Instalação</MenuItem>
                 <MenuItem value="Manutenção e reparo">Manutenção e reparo</MenuItem>

@@ -5,6 +5,8 @@
         import * as XLSX from 'xlsx';
         import VimaLogo from '/src/assets/logo-vima.png';
         import CemigLogo from '/src/assets/logo-cemig.png';
+        import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
 
         const OrderCard = ({ order, onEditFormulario }) => {
           const handleOpenInMaps = () => {
@@ -90,12 +92,13 @@
         )}
                 {order.formularioEmCampoPreenchido !== undefined && (
                   <Typography paragraph>
-                    <strong>Formulário em campo preenchido:</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
-                    <Button color="primary" onClick={confirmChangeStatus}>
-                      ALTERAR
+                    <strong>Formulário em campo preenchido até o momento?:</strong> {order.formularioEmCampoPreenchido === 'SIM' ? 'SIM' : 'NÃO'}
+                    <Button color="primary" onClick={confirmChangeStatus} startIcon={<CheckCircleOutlineIcon />}>
+                      {/* Adicione um ícone no lugar do texto */}
                     </Button>
                   </Typography>
                 )}
+
 
 
       {order.numeroOrdem && (
