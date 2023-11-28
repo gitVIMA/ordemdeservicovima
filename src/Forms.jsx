@@ -14,9 +14,11 @@ import {
   Card,
   CardContent,
   CardActions,
+  Input,
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+
 
 // ID aleatório para O.S
 
@@ -301,7 +303,22 @@ const Orders = () => {
       gateway: '',
     });
   };
-
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        try {
+          const importedData = JSON.parse(event.target.result);
+          // Adicione os dados importados ao estado ou ao banco de dados conforme necessário
+          console.log('Dados importados:', importedData);
+        } catch (error) {
+          console.error('Erro ao importar dados:', error);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
   return (
     <Container maxWidth="sm" sx={{ marginTop: '5rem' }}>
       <Box
@@ -583,6 +600,15 @@ const Orders = () => {
               Cancelar Edição
             </Button>
           )}
+          <div>
+            <InputLabel>Importar CSV</InputLabel>
+            <Input
+              type="file"
+              onChange={handleFileChange}
+              accept=".csv"
+              sx={{ marginBottom: '0.5rem' }}
+            />
+          </div>
         </form>
         {/* Exibir a lista de ordens de serviço */}
         <div className="order-list">
