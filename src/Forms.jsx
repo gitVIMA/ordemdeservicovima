@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { db } from './firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import Papa from 'papaparse';
 
 
 // ID aleatório para O.S
@@ -303,22 +304,37 @@ const Orders = () => {
       gateway: '',
     });
   };
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = async (event) => {
         try {
-          const importedData = JSON.parse(event.target.result);
-          // Adicione os dados importados ao estado ou ao banco de dados conforme necessário
-          console.log('Dados importados:', importedData);
+          const importedData = Papa.parse(event.target.result, {
+            header: true,
+            dynamicTyping: true,
+          }).data;
+
+          // Assuming 'orders' is the collection in your Firestore database
+          const ordersCollection = collection(db, 'orders');
+
+          // Iterate through the imported data and add each entry to the database
+          for (const orderData of importedData) {
+            try {
+              const docRef = await addDoc(ordersCollection, orderData);
+              console.log('Document written with ID: ', docRef.id);
+            } catch (error) {
+              console.error('Error adding document: ', error);
+            }
+          }
         } catch (error) {
-          console.error('Erro ao importar dados:', error);
+          console.error('Error parsing CSV data:', error);
         }
       };
       reader.readAsText(file);
     }
   };
+
   return (
     <Container maxWidth="sm" sx={{ marginTop: '5rem' }}>
       <Box
