@@ -315,13 +315,19 @@ const Orders = () => {
             dynamicTyping: true,
           }).data;
 
-          // Assuming 'orders' is the collection in your Firestore database
           const ordersCollection = collection(db, 'orders');
 
-          // Iterate through the imported data and add each entry to the database
+          // Iterate through the imported data
           for (const orderData of importedData) {
+            // Generate a unique ID for each imported entry
+            const uniqueID = generateUniqueID();
+
             try {
-              const docRef = await addDoc(ordersCollection, orderData);
+              // Add the generated ID to the order data
+              const orderWithID = { ...orderData, numeroOrdem: uniqueID };
+
+              // Add the entry to the database
+              const docRef = await addDoc(ordersCollection, orderWithID);
               console.log('Document written with ID: ', docRef.id);
             } catch (error) {
               console.error('Error adding document: ', error);
