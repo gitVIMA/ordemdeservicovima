@@ -295,14 +295,22 @@ const Orders = () => {
     }));
   };
 
-  const handleFilterChange = (formulario) => {
+
+  const handleFilterChange = (filter) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [filter]: !prevFilters[filter],
+    }));
+  };
+  const handleFormularioFilterChange = (formulario) => {
     setSelectedFormulario((prevFormulario) => ({
       ...prevFormulario,
       [formulario]: !prevFormulario[formulario],
     }));
   };
 
-  
+
+ 
 
   const sortedOrders = [...orders].sort((a, b) => {
     const fieldA = a[sortBy] || '';
@@ -429,20 +437,36 @@ const Orders = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-                <FormControl fullWidth size="small" component="fieldset">
-                  <Typography variant="body2" color="text.secondary">
-                    Exibir ORDENS com "Formulário em campo preenchido"
-                  </Typography>
-                  <FormGroup row>
-                {Object.keys(selectedFormulario).map(formulario => (
-                  <FormControlLabel
-                    key={formulario}
-                    control={<Checkbox checked={selectedFormulario[formulario]} onChange={() => handleFilterChange(formulario)} name={formulario} size="small" />}
-                    label={formulario}
-                  />
-                ))}
+            <FormControl fullWidth size="small" component="fieldset">
+              <Typography variant="body2" color="text.secondary">
+                Exibir ORDENS com "Formulário em campo preenchido"
+              </Typography>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={selectedFormulario['SIM']}
+                      onChange={() => handleFormularioFilterChange('SIM')}
+                      name="SIM"
+                      size="small"
+                    />
+                  }
+                  label="SIM"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={selectedFormulario['NÃO']}
+                      onChange={() => handleFormularioFilterChange('NÃO')}
+                      name="NÃO"
+                      size="small"
+                    />
+                  }
+                  label="NÃO"
+                />
               </FormGroup>
             </FormControl>
+
           </Grid>
 
 
