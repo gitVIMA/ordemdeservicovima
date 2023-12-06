@@ -487,7 +487,7 @@ const Orders = () => {
               sx={{ marginBottom: '0.5rem' }}
               value={newOrderData.endereco}
               onChange={(e) => setNewOrderData({ ...newOrderData, endereco: e.target.value })}
-              required
+              //required
             />
           </div>
           <div>
@@ -573,6 +573,7 @@ const Orders = () => {
               <Select
                 value={newOrderData.status}
                 onChange={(e) => setNewOrderData({ ...newOrderData, status: e.target.value })}
+                required
               >
                 <MenuItem value="Pendente">Pendente</MenuItem>
                 <MenuItem value="EmProgresso">Em Progresso</MenuItem>
@@ -589,6 +590,7 @@ const Orders = () => {
               <Select
                 value={newOrderData.formularioEmCampoPreenchido}
                 onChange={(e) => setNewOrderData({ ...newOrderData, formularioEmCampoPreenchido: e.target.value })}
+                required
                 label="Formulário em campo preenchido?"
               >
                 <MenuItem value="SIM">SIM</MenuItem>

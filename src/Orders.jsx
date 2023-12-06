@@ -1,18 +1,30 @@
         import React, { useState, useEffect, useRef } from 'react';
-        import {Container, Typography, Box, Card, CardContent, Grid, FormControl, InputLabel, Select, MenuItem, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+        import {Container, Typography, Box, Card, CardContent, Grid, FormControl, InputLabel, Select, MenuItem, Button, FormGroup, FormControlLabel, Checkbox, IconButton } from '@mui/material';
         import { db } from './firebase';
         import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
         import * as XLSX from 'xlsx';
         import VimaLogo from '/src/assets/logo-vima.png';
         import CemigLogo from '/src/assets/logo-cemig.png';
         import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+        import MapIcon from '@mui/icons-material/Map';
+        
 
 
         const OrderCard = ({ order, onEditFormulario }) => {
+          
           const handleOpenInMaps = () => {
-            const address = encodeURIComponent(order.endereco);
-            window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
-          };
+  const address = encodeURIComponent(order.endereco);
+  window.open(`https://www.google.com/maps/search/?api=1&query=${address}`);
+
+  // Adiciona ou remove o ID do card ao array de cards selecionados
+  setSelectedOrders(prevSelectedOrders => {
+    if (prevSelectedOrders.includes(order.id)) {
+      return prevSelectedOrders.filter(id => id !== order.id);
+    } else {
+      return [...prevSelectedOrders, order.id];
+    }
+  });
+};
 
           const statusColors = {
             Pendente: '#ffd700',
@@ -96,6 +108,11 @@
                     <Button color="primary" onClick={confirmChangeStatus} startIcon={<CheckCircleOutlineIcon />}>
                       {/* Adicione um ícone no lugar do texto */}
                     </Button>
+
+                    {/* Adicione o botão "Gerar Rotas" com o ícone de mapa */}
+                    <IconButton color="primary" onClick={handleOpenInMaps}>
+                      <MapIcon />
+                    </IconButton>
                   </Typography>
                 )}
 
@@ -178,7 +195,7 @@ const Orders = () => {
   const [displayedOrderCount, setDisplayedOrderCount] = useState(0);
   const [statusCounts, setStatusCounts] = useState({});
   const [displayedStatusCounts, setDisplayedStatusCounts] = useState({});
-  const [selectedStatus, setSelectedStatus] = useState({Pendente: false, EmProgresso: true, EmAberto: true, Retorno: true, Concluída: false, Cancelada: false,});
+  const [selectedStatus, setSelectedStatus] = useState({Pendente: false, EmProgresso: true, EmAberto: true, Retorno: true, Concluída: true, Cancelada: false,});
   const [selectedFilters, setSelectedFilters] = useState({Instalação: true, "Manutenção e reparo": true, "Contato ou mensagem": true,});
   const [selectedFormulario, setSelectedFormulario] = useState({ SIM: false, NÃO: true });
 
