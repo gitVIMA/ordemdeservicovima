@@ -160,9 +160,9 @@ const Orders = () => {
     dataPrevistaAcao: '', 
     formularioEmCampoPreenchido: 'NÃO', 
     observacoes: '',
-    ip: '172.25.35.',
-    mascara: '255.255.255.0',
-    gateway: '172.25.35.1',
+    ip: '172.25.64.???',
+    mascara: '255.255.254.0',
+    gateway: '172.25.64.1',
   });
 
   const [editingOrderId, setEditingOrderId] = useState(null);
