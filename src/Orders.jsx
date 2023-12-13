@@ -397,19 +397,7 @@ const Orders = () => {
 
           {/*Filtro previsão de atendimento e datas*/}
           
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" size="small">
-              <InputLabel>Ordenar Por</InputLabel>
-              <Select
-                value={sortBy}
-                onChange={handleSortByChange}
-                label="Ordenar Por"
-              >
-                <MenuItem value="dataPrevistaAcao">Data prevista para atendimento</MenuItem>
-                <MenuItem value="migrationDate">Data de migração</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
+         
           
 
           
@@ -427,6 +415,19 @@ const Orders = () => {
             </FormControl>
           </Grid>
          
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" size="small">
+              <InputLabel>Ordenar Por</InputLabel>
+              <Select
+                value={sortBy}
+                onChange={handleSortByChange}
+                label="Ordenar Por"
+              >
+                <MenuItem value="dataPrevistaAcao">Data prevista para atendimento</MenuItem>
+                <MenuItem value="migrationDate">Data de migração</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
           
           <Grid item xs={12}>
             <FormControl fullWidth size="small" component="fieldset">
