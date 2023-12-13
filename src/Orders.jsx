@@ -395,7 +395,8 @@ const Orders = () => {
             </Typography>
           </Grid>
 
-          {/*
+          {/*Filtro previsão de atendimento e datas*/}
+          
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Ordenar Por</InputLabel>
@@ -409,9 +410,9 @@ const Orders = () => {
               </Select>
             </FormControl>
           </Grid>
-          */}
+          
 
-          {/*
+          
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined" size="small">
               <InputLabel>Direção da Ordenação</InputLabel>
@@ -425,7 +426,7 @@ const Orders = () => {
               </Select>
             </FormControl>
           </Grid>
-          */}
+         
           
           <Grid item xs={12}>
             <FormControl fullWidth size="small" component="fieldset">
