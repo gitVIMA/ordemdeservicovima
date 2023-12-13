@@ -188,7 +188,7 @@ const Orders = () => {
   
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('');
-  const [sortBy, setSortBy] = useState('dataPrevistaAcao');
+  const [sortBy, setSortBy] = useState('migrationDate');
   const [sortDirection, setSortDirection] = useState('asc');
   const [hideCompleted, setHideCompleted] = useState(false);
   const [orderCount, setOrderCount] = useState(0);
