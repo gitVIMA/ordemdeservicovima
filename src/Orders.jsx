@@ -163,6 +163,7 @@
 };
 
 
+
 const Orders = () => {
   const handleEditFormulario = async (orderId, formularioEmCampoPreenchido) => {
     // Encontre a ordem no estado e atualize o valor para 'SIM' localmente
@@ -195,7 +196,7 @@ const Orders = () => {
   const [displayedOrderCount, setDisplayedOrderCount] = useState(0);
   const [statusCounts, setStatusCounts] = useState({});
   const [displayedStatusCounts, setDisplayedStatusCounts] = useState({});
-  const [selectedStatus, setSelectedStatus] = useState({Pendente: false, EmProgresso: true, EmAberto: true, Retorno: true, Concluída: true, Cancelada: false,});
+  const [selectedStatus, setSelectedStatus] = useState({Pendente: true, EmProgresso: true, EmAberto: true, Retorno: true, Concluída: true, Cancelada: true,});
   const [selectedFilters, setSelectedFilters] = useState({Instalação: true, "Manutenção e reparo": true, "Contato ou mensagem": true,});
   const [selectedFormulario, setSelectedFormulario] = useState({ SIM: false, NÃO: true });
 
@@ -218,7 +219,7 @@ const Orders = () => {
     });
   };
 
-
+  const [showOnlyOrdersWithTechnician, setShowOnlyOrdersWithTechnician] = useState(true);
 
   const countStatus = (filteredOrders) => {
     const counts = {};
@@ -354,14 +355,17 @@ const Orders = () => {
         order.status !== 'Concluída' &&
         selectedStatus[order.status] &&
         selectedFilters[order.tipoServico] &&
-        selectedFormulario[order.formularioEmCampoPreenchido]
+        selectedFormulario[order.formularioEmCampoPreenchido] &&
+        (!showOnlyOrdersWithTechnician || (showOnlyOrdersWithTechnician && order.tecnico))
     )
   : searchedOrders.filter(
       (order) =>
         selectedStatus[order.status] &&
         selectedFilters[order.tipoServico] &&
-        selectedFormulario[order.formularioEmCampoPreenchido]
+        selectedFormulario[order.formularioEmCampoPreenchido] &&
+        (!showOnlyOrdersWithTechnician || (showOnlyOrdersWithTechnician && order.tecnico))
     );
+
 
 
   const exportToExcel = () => {
@@ -398,7 +402,19 @@ const Orders = () => {
           {/*Filtro previsão de atendimento e datas*/}
           
          
-          
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showOnlyOrdersWithTechnician}
+                  onChange={() => setShowOnlyOrdersWithTechnician(!showOnlyOrdersWithTechnician)}
+                  size="small"
+                />
+              }
+              label="Exibir apenas ordens com técnico atribuído"
+            />
+          </Grid>
+
 
           
           <Grid item xs={12}>
