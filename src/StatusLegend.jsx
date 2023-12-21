@@ -14,6 +14,7 @@ const StatusLegend = () => {
           height={20}
           bgcolor="#ffd700"
           marginRight={1}
+          border="1px solid #000"
         />
         <Typography variant="body2">
           Pendente - Aguardando ação ou resposta.
@@ -26,7 +27,7 @@ const StatusLegend = () => {
           height={20}
           bgcolor="#ffffff"
           marginRight={1}
-          //border="1px solid #000"
+          border="1px solid #000"
         />
         <Typography variant="body2">
           Em Progresso - Em andamento ou em execução.
@@ -39,6 +40,7 @@ const StatusLegend = () => {
           height={20}
           bgcolor="#ff4500"
           marginRight={1}
+          border="1px solid #000"
         />
         <Typography variant="body2">
           Em Aberto - Aguardando abertura ou início.
@@ -51,6 +53,8 @@ const StatusLegend = () => {
           height={20}
           bgcolor="#d9f7d9"
           marginRight={1}
+          border="1px solid #000"
+          border="1px solid #000"
         />
         <Typography variant="body2">
           Concluída - Ação ou trabalho concluído com sucesso.
@@ -63,6 +67,7 @@ const StatusLegend = () => {
           height={20}
           bgcolor="#87ceeb"
           marginRight={1}
+          border="1px solid #000"
         />
         <Typography variant="body2">
           Retorno - Requer revisão ou retorno para nova ação.
@@ -75,6 +80,7 @@ const StatusLegend = () => {
           height={20}
           bgcolor="#808080"
           marginRight={1}
+          border="1px solid #000"
         />
         <Typography variant="body2">
           Cancelada - Ação ou solicitação cancelada.
