@@ -7,6 +7,7 @@
         import CemigLogo from '/src/assets/logo-cemig.png';
         import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
         import MapIcon from '@mui/icons-material/Map';
+        import StatusLegend from './StatusLegend';
         
 
 
@@ -564,6 +565,7 @@ const Orders = () => {
               <Button variant="contained" color="primary" onClick={exportToExcel}>
                 Exportar para Excel
               </Button>
+      <StatusLegend />
             </Box>
           );
         };
