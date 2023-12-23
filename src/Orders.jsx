@@ -8,6 +8,7 @@
         import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
         import MapIcon from '@mui/icons-material/Map';
         import StatusLegend from './StatusLegend';
+        //import Charts from './componets/Charts';
         
 
 
@@ -565,8 +566,9 @@ const Orders = () => {
               <Button variant="contained" color="primary" onClick={exportToExcel}>
                 Exportar para Excel
               </Button>
-      <StatusLegend />
-            </Box>
+     
+        <StatusLegend />
+      </Box>
           );
         };
 
