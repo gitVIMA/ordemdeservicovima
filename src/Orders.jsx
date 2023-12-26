@@ -11,6 +11,7 @@
         import ServiceTypeChart from './ServiceTypeChart';
         import OrdersOverTimeChart from './OrdersOverTimeChart';
         import OrdersByTechnicianChart from './OrdersByTechnicianChart';
+        import StatusLegend from './StatusLegend';
 
 import {
   Chart as ChartJS,
@@ -599,6 +600,7 @@ const Orders = () => {
       <ServiceTypeChart orders={orders} />
       <OrdersOverTimeChart orders={orders} />
       <OrdersByTechnicianChart orders={orders} />
+      <StatusLegend />
 
       </Box>
           );
