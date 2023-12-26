@@ -7,8 +7,36 @@
         import CemigLogo from '/src/assets/logo-cemig.png';
         import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
         import MapIcon from '@mui/icons-material/Map';
-        import StatusLegend from './StatusLegend';
-        //import Charts from './componets/Charts';
+        import OrderStatusChart from './OrderStatusChart';
+        import ServiceTypeChart from './ServiceTypeChart';
+        import OrdersOverTimeChart from './OrdersOverTimeChart';
+        import OrdersByTechnicianChart from './OrdersByTechnicianChart';
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
         
 
 
@@ -566,8 +594,12 @@ const Orders = () => {
               <Button variant="contained" color="primary" onClick={exportToExcel}>
                 Exportar para Excel
               </Button>
-     
-        <StatusLegend />
+            
+       <OrderStatusChart orders={orders} />
+      <ServiceTypeChart orders={orders} />
+      <OrdersOverTimeChart orders={orders} />
+      <OrdersByTechnicianChart orders={orders} />
+
       </Box>
           );
         };
