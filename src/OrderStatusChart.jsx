@@ -6,7 +6,7 @@ const OrderStatusChart = ({ orders }) => {
   const statusColors = {
     Pendente: 'rgba(255, 206, 86, 0.6)',
     EmProgresso: 'rgba(54, 162, 235, 0.6)',
-    EmAberto: 'rgba(255, 99, 132, 0.6)',
+    EmAberto: '#ff4500',
     Concluída: 'rgba(75, 192, 192, 0.6)',
     Retorno: 'rgba(153, 102, 255, 0.6)',
     Cancelada: 'rgba(201, 203, 207, 0.6)'
