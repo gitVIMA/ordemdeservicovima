@@ -2,11 +2,26 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
 const OrderStatusChart = ({ orders }) => {
+  // Mapeamento de cores para cada status
+  const statusColors = {
+    Pendente: 'rgba(255, 206, 86, 0.6)',
+    EmProgresso: 'rgba(54, 162, 235, 0.6)',
+    EmAberto: 'rgba(255, 99, 132, 0.6)',
+    Concluída: 'rgba(75, 192, 192, 0.6)',
+    Retorno: 'rgba(153, 102, 255, 0.6)',
+    Cancelada: 'rgba(201, 203, 207, 0.6)'
+    // Adicione mais cores e status conforme necessário
+  };
+
   // Calcula a contagem de ordens por status
   const statusCounts = orders.reduce((acc, order) => {
     acc[order.status] = (acc[order.status] || 0) + 1;
     return acc;
   }, {});
+
+  // Cria arrays de cores baseados na ordem dos status
+  const backgroundColors = Object.keys(statusCounts).map(status => statusColors[status] || 'grey');
+  const borderColors = backgroundColors.map(color => color.replace('0.6', '1'));
 
   // Prepara os dados para o gráfico
   const data = {
@@ -15,18 +30,8 @@ const OrderStatusChart = ({ orders }) => {
       {
         label: 'Número de Ordens por Status',
         data: Object.values(statusCounts),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          // Adicione mais cores conforme necessário
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          // Adicione mais bordas de cores conforme necessário
-        ],
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
         borderWidth: 1,
       },
     ],
